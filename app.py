@@ -45,12 +45,12 @@ def _():
 
 @get("/thumbnails/<filename:re:.*\.jpg>")
 def _(filename):
-    return static_file(filename, root="./thumbnails")
+    return static_file(web_folder + filename, root="./thumbnails")
 
 
 @get("/banners/<filename:re:.*\.jpeg>")
 def _(filename):
-    return static_file(filename, root="./banners")
+    return static_file(web_folder + filename, root="./banners")
 
 
 @get("/<username>")

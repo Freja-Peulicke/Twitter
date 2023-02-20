@@ -11,19 +11,19 @@ db = sqlite3.connect('twitter.db')
 #########################
 
 
-# @post('/secret_url_for_git_hook')
-# def git_update():
-#    repo = git.Repo('./twitter')
-#    origin = repo.remotes.origin
-#    repo.create_head('main', origin.refs.main).set_tracking_branch(
-#        origin.refs.main).checkout()
-#    origin.pull()
-#    return ""
+@post('/6caaba75-aa1e-4f5d-b676-fe5c28cdfe86')
+def git_update():
+    repo = git.Repo('./twitter')
+    origin = repo.remotes.origin
+    repo.create_head('main', origin.refs.main).set_tracking_branch(
+        origin.refs.main).checkout()
+    origin.pull()
+    return ""
 
 
 @get("/")
 def _():
-    return "One"
+    return "Two"
 
 
 """@get("/")

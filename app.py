@@ -40,9 +40,9 @@ def _():
     return "One"
 
 
-@get("/")
-def render_index():
-    return template("index", title="Twitter")
+# @get("/")
+# def render_index():
+#    return template("index", title="Twitter")
 
 
 @get("/app.css")

@@ -21,12 +21,12 @@ def git_update():
     return ""
 
 
+# @get("/")
+# def _():
+#    return "Four"
+
+
 @get("/")
-def _():
-    return "Three"
-
-
-"""@get("/")
 def render_index():
     return template("index", title="Twitter")
 
@@ -49,7 +49,7 @@ def _(filename):
 @get("/<username>")
 def _(username):
     return template("profile", user=username)
-"""
+
 
 ##############################
 # Run in AWS

@@ -11,28 +11,14 @@ db = sqlite3.connect('twitter.db')
 #########################
 
 
-@post('/secret_url_for_git_hook')
-def git_update():
-    repo = git.Repo('./twitter')
-    origin = repo.remotes.origin
-    repo.create_head('main', origin.refs.main).set_tracking_branch(
-        origin.refs.main).checkout()
-    origin.pull()
-    return ""
-
-
-##############################
-# Run in AWS
-try:
-    import production
-    print("Server running on AWS")
-    application = default_app()
-# Run in local computer
-except Exception as ex:
-    print("Server running locally")
-    run(host="127.0.0.1", port=3001, debug=True, reloader=True)
-
-##############################
+# @post('/secret_url_for_git_hook')
+# def git_update():
+#    repo = git.Repo('./twitter')
+#    origin = repo.remotes.origin
+#    repo.create_head('main', origin.refs.main).set_tracking_branch(
+#        origin.refs.main).checkout()
+#    origin.pull()
+#    return ""
 
 
 @get("/")
@@ -40,9 +26,9 @@ def _():
     return "One"
 
 
-# @get("/")
-# def render_index():
-#    return template("index", title="Twitter")
+"""@get("/")
+def render_index():
+    return template("index", title="Twitter")
 
 
 @get("/app.css")
@@ -63,6 +49,18 @@ def _(filename):
 @get("/<username>")
 def _(username):
     return template("profile", user=username)
+"""
 
+##############################
+# Run in AWS
+try:
+    import production
+    print("Server running on AWS")
+    application = default_app()
+# Run in local computer
+except Exception as ex:
+    print("Server running locally")
+    run(host="127.0.0.1", port=3001, debug=True, reloader=True)
+##############################
 
-run(host="127.0.0.1", port=3001, reloader=True, debug=True)  # 65535
+# run(host="127.0.0.1", port=3001, reloader=True, debug=True)  # 65535

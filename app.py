@@ -10,6 +10,13 @@ db = sqlite3.connect('twitter.db')
 # https://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github.com/frej1187/twitter.git
 #########################
 
+try:
+    import production
+    web_folder = "twitter/"
+# Run in local computer
+except Exception as ex:
+    web_folder = ""
+
 
 @post('/6caaba75-aa1e-4f5d-b676-fe5c28cdfe86')
 def git_update():
@@ -33,7 +40,7 @@ def render_index():
 
 @get("/app.css")
 def _():
-    return static_file("app.css", root=".")
+    return static_file(web_folder + "app.css", root=".")
 
 
 @get("/thumbnails/<filename:re:.*\.jpg>")

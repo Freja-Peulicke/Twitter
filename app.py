@@ -55,6 +55,8 @@ def git_update():
 
 @get("/")
 def render_index():
+    db = sqlite3.connect(
+        str(pathlib.Path(__file__).parent.resolve())+"/twitter.db")
     db.row_factory = dict_factory
     suggested_followers = get_suggested_followers()
     tweets = db.execute(
@@ -91,7 +93,8 @@ def _(filename):
 def _(username):
     try:
         suggested_followers = get_suggested_followers()
-        db = sqlite3.connect(os.getcwd()+"/twitter.db")
+        db = sqlite3.connect(
+            str(pathlib.Path(__file__).parent.resolve())+"/twitter.db")
         db.row_factory = dict_factory
         user = db.execute(
             "SELECT * FROM users WHERE username=? COLLATE NOCASE", (username,)).fetchall()[0]

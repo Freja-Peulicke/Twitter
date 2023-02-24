@@ -1,7 +1,7 @@
 from bottle import default_app, get, post, run
 from bottle import get, run, template, static_file, response, request
 import sqlite3
-import os
+import pathlib
 import datetime
 
 db = sqlite3.connect('twitter.db')
@@ -27,7 +27,8 @@ def dict_factory(cursor, row):
 
 def get_suggested_followers():
     try:
-        db = sqlite3.connect(os.getcwd()+"/twitter.db")
+        db = sqlite3.connect(
+            str(pathlib.Path(__file__).parent.resolve())+"/twitter.db")
         db.row_factory = dict_factory
         followers = db.execute(
             "SELECT * FROM users LIMIT 3").fetchall()

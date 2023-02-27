@@ -1,7 +1,12 @@
 <section class="border-l-2 border-slate-200">
+
+    <div class="sticky top-0 bg-gray-100">
+        <input type="text" placeholder="Search">
+    </div>
+
     <!-- who to follow -->
-    <div class="sticky flex flex-col w-full gap-4 p-2 mt-4 rounded-lg top-20">
-        <div class="text-2xl font-bold">
+    <div class="sticky flex flex-col w-full gap-4 p-2 mt-4 rounded-lg top-20 bg-grey bg-opacity-5">
+        <div class="text-xl font-extrabold">
             You might like
         </div>
         % for suggested_follower in suggested_followers:

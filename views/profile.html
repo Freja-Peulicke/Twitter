@@ -2,17 +2,17 @@
 
 
 <main>
-    <div class="flex">
-        <a href="history.back()">
-            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-7">
+    <div class="sticky top-0 z-10 flex bg-white bg-opacity-95">
+        <a href="/" class="flex justify-center pl-4">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="rounded-full w-7 hover:bg-gray-100">
                 <g>
                     <path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z">
                     </path>
                 </g>
             </svg>
         </a>
-        <div class="flex flex-col">
-            <h1 class="flex text-lg font-bold"> {{user["first_name"] + " " + user["last_name"]}} <svg
+        <div class="flex flex-col ">
+            <h1 class="flex pl-12 text-xl font-bold"> {{user["first_name"] + " " + user["last_name"]}} <svg
                     viewBox="0 0 24 24" aria-label="Verified account" role="img" class="w-5 fill-twitter">
                     <g>
                         <path
@@ -21,10 +21,10 @@
                     </g>
                 </svg>
             </h1>
-            <p>{{user["total_tweets"]}} Tweets</p>
+            <p class="pl-12 text-sm text-gray-500">{{user["total_tweets"]}} Tweets</p>
         </div>
     </div>
-    <div class="relative">
+    <div class="relative z-0">
         <img src="/banners/{{user['id']}}.jpg" alt="">
         <img src="/avatars/{{user['id']}}.jpg" alt=""
             class="absolute bottom-0 translate-y-1/2 border-4 border-white rounded-full w-36 left-6">

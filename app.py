@@ -1,8 +1,9 @@
-from bottle import default_app, get, post, run
-from bottle import get, run, template, static_file, response, request
-import sqlite3
-import pathlib
 import datetime
+import pathlib
+import sqlite3
+
+from bottle import (default_app, get, post, request, response, run,
+                    static_file, template)
 
 db = sqlite3.connect('twitter.db')
 
@@ -11,13 +12,22 @@ db = sqlite3.connect('twitter.db')
 # https://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github.com/frej1187/twitter.git
 #########################
 
+
+
+
+
 try:
-    import production
     import git
+    import production
     web_folder = "twitter/"
 # Run in local computer
 except Exception as ex:
     web_folder = ""
+
+
+@get("/js/<filename>")
+def _(filename):
+  return static_file(filename, "js")
 
 
 def dict_factory(cursor, row):
@@ -111,6 +121,13 @@ def _(username):
         if "db" in locals():
             db.close()
 
+##############################
+# VIEWS
+import views.tweet
+
+##############################
+# APIS
+import apis.api_tweet
 
 ##############################
 # Run in AWS

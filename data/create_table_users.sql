@@ -35,10 +35,10 @@ CREATE TABLE tweets(
     image       TEXT,
     created_at  TEXT,
     user_fk     TEXT,
-    replies     TEXT,
-    retweets    TEXT,
-    likes       TEXT,
-    views       TEXT,
+    replies     TEXT DEFAULT 0,
+    retweets    TEXT DEFAULT 0,
+    likes       TEXT DEFAULT 0,
+    views       TEXT DEFAULT 0,
 
     PRIMARY KEY(id)
     )WITHOUT ROWID;

@@ -1,12 +1,14 @@
 % include("header", title="Home", home_active='class="active"')
 
-<main class="sticky">
-    <h1 class="m-2 text-lg font-bold">Home</h1>
-    <div class="grid grid-cols-2 border-b-2 border-slate-200">
-        <button class="h-14 hover:bg-grey hover:bg-opacity-10">For you</button>
-        <button class="h-14 hover:bg-grey hover:bg-opacity-10">Following</button>
+<main class="">
+    <div class="sticky top-0 z-10 bg-white bg-opacity-95">
+        <h1 class="m-2 text-lg font-bold">Home</h1>
+        <div class="grid grid-cols-2 border-b-2 border-slate-200">
+            <button class="h-14 hover:bg-grey hover:bg-opacity-10">For you</button>
+            <button class="h-14 hover:bg-grey hover:bg-opacity-10">Following</button>
+        </div>
     </div>
-    <section class="grid-cols-[68px_1fr] grid">
+    <section class="grid-cols-[68px_1fr] grid z-0">
         <div class="col-start-2">
             <textarea placeholder="What's happening?" class="w-full pt-3"></textarea>
         </div>

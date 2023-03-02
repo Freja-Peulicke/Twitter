@@ -1,0 +1,39 @@
+<div class="hidden lg:block w-[290px] xl:w-[350px]">
+    <div class="sticky top-0 z-10 pt-1 pb-3 bg-white dark:bg-dim">
+        <label
+            class="flex px-5 py-3 text-gray-700 bg-gray-100 border border-transparent rounded-full dark:bg-dim-border dark:bg-opacity-50 focus-within:bg-opacity-0 focus-within:border-twitter dark:text-gray-400 focus-within:text-twitter">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-4.5 mr-4 fill-current">
+                <g>
+                    <path
+                        d="M10.25 3.75c-3.59 0-6.5 2.91-6.5 6.5s2.91 6.5 6.5 6.5c1.795 0 3.419-.726 4.596-1.904 1.178-1.177 1.904-2.801 1.904-4.596 0-3.59-2.91-6.5-6.5-6.5zm-8.5 6.5c0-4.694 3.806-8.5 8.5-8.5s8.5 3.806 8.5 8.5c0 1.986-.682 3.815-1.824 5.262l4.781 4.781-1.414 1.414-4.781-4.781c-1.447 1.142-3.276 1.824-5.262 1.824-4.694 0-8.5-3.806-8.5-8.5z">
+                    </path>
+                </g>
+            </svg>
+            <input class="w-full text-sm bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 focus:outline-none"
+                type="text" placeholder="Search Twitter">
+        </label>
+    </div>
+    <div class="overflow-hidden bg-gray-50 dark:bg-dim-border dark:bg-opacity-20 rounded-2xl">
+        <p class="px-4 py-3 text-lg font-extrabold">Trends for you</p>
+        <div class="flex flex-col">
+        </div>
+        <p class="px-4 py-3 text-sm cursor-pointer text-twitter hover:bg-gray-100 dark:hover:bg-dim-border dark:hover:bg-opacity-20">Show more</p>
+    </div>
+    <div class="mt-3 mb-32 overflow-hidden bg-gray-50 dark:bg-dim-border dark:bg-opacity-20 rounded-2xl">
+        <p class="px-4 py-3 text-lg font-extrabold">Who to follow</p>
+        <div class="flex flex-col">
+            % for suggested_follower in suggested_followers:
+            <a href="/{{suggested_follower['username']}}" class="relative flex flex-row gap-2 px-4 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-dim-border dark:hover:bg-opacity-20">
+                <img class="w-12 rounded-full" src="/avatars/{{suggested_follower['id']}}.jpg" alt="">
+                <div class="text-sm">
+                    <p class="font-bold">{{suggested_follower["first_name"] + suggested_follower["last_name"]}}</p>
+                    <p class="text-gray-500">@{{suggested_follower['username']}}</p>
+                </div>
+                <button
+                    class="absolute px-5 py-2 text-xs font-bold text-white -translate-y-1/2 bg-gray-900 rounded-full top-1/2 right-2 dark:bg-white dark:text-gray-900">Follow</button>
+            </a>
+            % end
+        </div>
+        <p class="px-4 py-3 text-sm cursor-pointer text-twitter hover:bg-gray-100 dark:hover:bg-dim-border dark:hover:bg-opacity-20">Show more</p>
+    </div>
+</div>

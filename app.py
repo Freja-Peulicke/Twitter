@@ -32,27 +32,26 @@ def _():
 ##############################
 @get("/logout")
 def _():
-    response.set_cookie("user", "", expires=0)
+    response.delete_cookie("user")
     response.status = 303
-    response.set_header("Location", "/login")
+    response.set_header("Location", "/")
     return
 
+@get("/notifications")
+def _():
+    response.add_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+    response.add_header("Pragma", "no-cache")
+    response.add_header("Expires", 0)
 
-#@get("/profile")
-#def _():
-
- #   response.add_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
- #   response.add_header("Pragma", "no-cache")
- #   response.add_header("Expires", 0)
-
- #   user = request.get_cookie("user", secret="my-secret")
-    # if not user:
-    #if user is None:
-     #   response.status=303
-      #  response.set_header("Location", "/login")
-       # return
-    
-  #  return template("index", user=user)
+    logged_in_user = request.get_cookie("user", secret="my-secret")
+    if not logged_in_user:
+        response.status=303
+        response.set_header("Location", "/login")
+        return
+    else:
+        response.status=303
+        response.set_header("Location", "/")
+        return
 
 import bro.login
 ##################################################
@@ -103,7 +102,7 @@ def render_index():
     response.add_header("Pragma", "no-cache")
     response.add_header("Expires", 0)
 
-    user = request.get_cookie("user", secret="my-secret")
+    logged_in_user = request.get_cookie("user", secret="my-secret")
 
     db = sqlite3.connect(
         str(pathlib.Path(__file__).parent.resolve())+"/twitter.db")
@@ -111,7 +110,7 @@ def render_index():
     suggested_followers = get_suggested_followers()
     tweets = db.execute(
         "SELECT users.id AS user_id, message, image, tweets.created_at AS tweet_created_at, replies, retweets, likes, views, username, first_name, last_name FROM tweets JOIN users ON user_fk = users.id ORDER BY RANDOM() LIMIT 5").fetchall()
-    return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, user=user)
+    return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user)
 
 
 @get("/app.css")
@@ -142,6 +141,11 @@ def _(filename):
 @get("/<username>")
 def _(username):
     try:
+        response.add_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        response.add_header("Pragma", "no-cache")
+        response.add_header("Expires", 0)
+
+        logged_in_user = request.get_cookie("user", secret="my-secret")
         suggested_followers = get_suggested_followers()
         db = sqlite3.connect(
             str(pathlib.Path(__file__).parent.resolve())+"/twitter.db")
@@ -152,7 +156,7 @@ def _(username):
             "SELECT * FROM tweets WHERE user_fk=?", (user["id"],)).fetchall()
         title = user["first_name"] + " " + user["last_name"] + \
             " (@" + user["username"] + ") / Twitter"
-        return template("profile", user=user, suggested_followers=suggested_followers, tweets=tweets, title=title)
+        return template("profile", user=user, suggested_followers=suggested_followers, tweets=tweets, title=title, logged_in_user=logged_in_user)
         # return "test"
     except Exception as ex:
         print(ex)

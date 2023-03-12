@@ -21,7 +21,7 @@
                         </g>
                     </svg>
                 </div>
-                % if user:
+                % if logged_in_user:
                 <div
                     class="flex gap-4 p-2 rounded-full fill-current xl:pr-6 hover:bg-slate-900 hover:bg-opacity-10 dark:hover:bg-opacity-10 dark:hover:bg-white">
                     <svg viewBox="0 0 24 24" aria-hidden="true" class="w-6">
@@ -45,7 +45,7 @@
                     </svg>
                     <span class="hidden xl:block">Explore</span>
                 </div>
-                % if user:
+                % if logged_in_user:
                 <div
                     class="flex gap-4 p-2 rounded-full fill-current xl:pr-6 hover:bg-slate-900 hover:bg-opacity-10 dark:hover:bg-opacity-10 dark:hover:bg-white">
                     <svg viewBox="0 0 24 24" aria-hidden="true" class="w-6">
@@ -125,7 +125,7 @@
                     <span class="hidden xl:block">Settings</span>
                 </div>
                 % end
-                % if user:
+                % if logged_in_user:
                 <div class="items-center mt-4 xl:w-10/12">
                     <button
                         class="w-full p-3 text-base font-bold text-white rounded-full shadow-lg bg-twitter hover:bg-twitter-dark"><span
@@ -140,19 +140,19 @@
                 </div>
                 % end
             </div>
-            % if user:
+            % if logged_in_user:
             <a href="/logout">Logout</a>
             % else:
             <a href="/login">Login</a>
             % end
-            % if user:
+            % if logged_in_user:
             <div class="xl:mr-2">
                 <div
                     class="relative flex flex-row items-center p-2 mx-auto rounded-full xl:pr-6 hover:bg-slate-900 hover:bg-opacity-10 dark:hover:bg-opacity-10 dark:hover:bg-white xl:gap-2 w-fit xl:w-auto">
                     <div><img class="rounded-full w-9" src="images/profile.jpg" alt=""></div>
                     <div class="hidden xl:block">
-                        <p class="text-sm font-bold">{{user["user_first_name"]}} {{user["user_last_name"]}}</p>
-                        <p class="text-sm text-gray-500">@{{user["user_name"]}}</p>
+                        <p class="text-sm font-bold">{{logged_in_user["user_first_name"]}} {{logged_in_user["user_last_name"]}}</p>
+                        <p class="text-sm text-gray-500">@{{logged_in_user["user_name"]}}</p>
                     </div>
 
                     <div class="absolute hidden xl:block right-2 dark:text-gray-400"><svg viewBox="0 0 24 24"

@@ -9,13 +9,13 @@ def _():
 
     #response.status= 300
     #response.set_header("Location", "/login")
-    user = {
+    logged_in_user = {
         "user_name":"Peulicke",
         "user_first_name":"Freja",
         "user_last_name": "Peulice"
     }
     cookie_expiration_date = int (time.time()) + 7200
-    response.set_cookie("user", user, secret="my-secret", httponly=True)
+    response.set_cookie("user", logged_in_user, secret="my-secret", httponly=True)
     response.status = 303
     response.set_header("Location", "/")
     return

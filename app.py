@@ -11,9 +11,7 @@ db = sqlite3.connect('twitter.db')
 # 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
 # https://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github.com/frej1187/twitter.git
 #########################
-
-
-
+#########################
 
 
 try:
@@ -23,6 +21,42 @@ try:
 # Run in local computer
 except Exception as ex:
     web_folder = ""
+
+##################################################
+# ny kode med login og logout
+
+@get("/login")
+def _():
+    return template("login")
+
+##############################
+@get("/logout")
+def _():
+    response.set_cookie("user", "", expires=0)
+    response.status = 303
+    response.set_header("Location", "/login")
+    return
+
+
+#@get("/profile")
+#def _():
+
+ #   response.add_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+ #   response.add_header("Pragma", "no-cache")
+ #   response.add_header("Expires", 0)
+
+ #   user = request.get_cookie("user", secret="my-secret")
+    # if not user:
+    #if user is None:
+     #   response.status=303
+      #  response.set_header("Location", "/login")
+       # return
+    
+  #  return template("index", user=user)
+
+import bro.login
+##################################################
+
 
 
 @get("/js/<filename>")
@@ -65,13 +99,19 @@ def git_update():
 
 @get("/")
 def render_index():
+    response.add_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+    response.add_header("Pragma", "no-cache")
+    response.add_header("Expires", 0)
+
+    user = request.get_cookie("user", secret="my-secret")
+
     db = sqlite3.connect(
         str(pathlib.Path(__file__).parent.resolve())+"/twitter.db")
     db.row_factory = dict_factory
     suggested_followers = get_suggested_followers()
     tweets = db.execute(
         "SELECT users.id AS user_id, message, image, tweets.created_at AS tweet_created_at, replies, retweets, likes, views, username, first_name, last_name FROM tweets JOIN users ON user_fk = users.id ORDER BY RANDOM() LIMIT 5").fetchall()
-    return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets)
+    return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, user=user)
 
 
 @get("/app.css")

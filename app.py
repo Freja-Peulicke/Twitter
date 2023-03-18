@@ -148,7 +148,7 @@ import views.tweet
 ##############################
 # APIS
 import apis.api_tweet
-import apis.api_sign_up
+#import apis.api_sign_up
 
 ##############################
 # Run in AWS

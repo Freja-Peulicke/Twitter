@@ -1,17 +1,45 @@
+% import x
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"> 
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="stylesheet" href="/app.css">  
+  <title>Twitter : : Login</title>
 </head>
-<body>
-    <form method="POST" action="/login">
-        <input name="email" type="text" placeholder="email">
-        <input name="password" type="password" placeholder="password">
-        <button>Login</button>
+<body class="w-full overflow-hidden overflow-y-scroll font-light text-gray-200 bg-black lg:text-lg font-roboto">
+
+  <!-- tooltip -->
+  <section id="tips" class="fixed flex flex-col w-full gap-4 top-4">
+  </section>
+  <!-- end tooltip -->
+
+  <div class="flex flex-col items-center w-full mt-36">
+    <svg viewBox="0 0 24 24" class="w-20 h-20 lg:w-48 lg:h-48 text-sky-500"><path fill="currentColor" d="M22.46 6c-.77.35-1.6.58-2.46.69c.88-.53 1.56-1.37 1.88-2.38c-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29c0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15c0 1.49.75 2.81 1.91 3.56c-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07a4.28 4.28 0 0 0 4 2.98a8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21C16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56c.84-.6 1.56-1.36 2.14-2.23Z"/></svg>
+    <form  class="flex flex-col w-2/3 gap-6 mt-8 lg:max-w-md"
+    autocomplete="off">
+      <div class="flex flex-col">
+        <label for="">email</label>
+        <input name="user_email" class="h-10 px-2 text-black bg-white rounded-sm outline-none" type="text"
+        data-validate="email">
+      </div>
+      <div class="flex flex-col">
+        <label for="" class="-mt-2">password ({{x.USER_PASSWORD_MIN}} to {{x.USER_PASSWORD_MAX}} characters)</label>
+        <input name="user_password" class="h-10 px-2 text-black bg-white rounded-sm outline-none" type="password"
+        data-validate="str" data-min="{{x.USER_PASSWORD_MIN}}" data-max="{{x.USER_PASSWORD_MAX}}">
+      </div>  
+      <button type="submit" onclick="validate(login); return false" data-default="Login" data-await="Please wait ..."
+      class="h-10 text-white rounded-sm bg-sky-500">
+        Login
+      </button>  
     </form>
-    
+  </div>
+
+  <script src="js/validate.js"></script>
+  <script src="js/base_app.js"></script>
+
 </body>
 </html>

@@ -1,14 +1,14 @@
 [
   {
-    "_id": "9eb50921-25f8-452b-80b7-f07e256f791a",
-    "colId": "92e4eeb0-88c3-4edb-aa1c-2c51b93cf8ef",
-    "containerId": "",
-    "name": "api sign up",
-    "url": "127.0.0.1:3001//api-sign-up",
+    "_id": "448f6fbd-c106-43ce-a852-3b58e2e9abd2",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "1c965241-c9b5-4293-ba4f-7ed0c148a088",
+    "name": "succes",
+    "url": "http://127.0.0.1:3001/api-sign-up",
     "method": "POST",
-    "sortNum": 50000,
-    "created": "2023-03-13T08:04:47.272Z",
-    "modified": "2023-03-13T09:00:56.198Z",
+    "sortNum": 10000,
+    "created": "2023-03-19T08:58:54.076Z",
+    "modified": "2023-03-19T09:30:24.025Z",
     "headers": [],
     "params": [],
     "body": {
@@ -17,10 +17,646 @@
       "form": [
         {
           "name": "user_name",
-          "value": "_ADG332"
+          "value": "test"
+        },
+        {
+          "name": "user_email",
+          "value": "test@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "password"
+        },
+        {
+          "name": "user_confirm_password",
+          "value": "password"
         }
       ]
     },
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "user created"
+      }
+    ]
+  },
+  {
+    "_id": "c5858d91-8fec-4977-8135-bcbf74455835",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "1c965241-c9b5-4293-ba4f-7ed0c148a088",
+    "name": "duplicate user",
+    "url": "http://127.0.0.1:3001/api-sign-up",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2023-03-19T09:31:29.725Z",
+    "modified": "2023-03-19T09:44:22.638Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_name",
+          "value": "test"
+        },
+        {
+          "name": "user_email",
+          "value": "test_duplicate_user@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "password"
+        },
+        {
+          "name": "user_confirm_password",
+          "value": "password"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "user_name already exists"
+      }
+    ]
+  },
+  {
+    "_id": "5287bb75-f5d2-44e4-806d-1c8187ef307b",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "1c965241-c9b5-4293-ba4f-7ed0c148a088",
+    "name": "duplicate email",
+    "url": "http://127.0.0.1:3001/api-sign-up",
+    "method": "POST",
+    "sortNum": 30000,
+    "created": "2023-03-19T09:32:52.012Z",
+    "modified": "2023-03-19T09:47:51.550Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_name",
+          "value": "duplicate_email"
+        },
+        {
+          "name": "user_email",
+          "value": "test@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "password"
+        },
+        {
+          "name": "user_confirm_password",
+          "value": "password"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "user_email already exists"
+      }
+    ]
+  },
+  {
+    "_id": "378aea48-74bc-474b-9490-0bc78196c317",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "1c965241-c9b5-4293-ba4f-7ed0c148a088",
+    "name": "invalid email",
+    "url": "http://127.0.0.1:3001/api-sign-up",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2023-03-19T09:33:11.497Z",
+    "modified": "2023-03-19T09:47:28.722Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_name",
+          "value": "invalid_email"
+        },
+        {
+          "name": "user_email",
+          "value": "testgmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "password"
+        },
+        {
+          "name": "user_confirm_password",
+          "value": "password"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "user_email invalid"
+      }
+    ]
+  },
+  {
+    "_id": "6de71ede-d9d6-4b11-9eb0-afc73af40291",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "1c965241-c9b5-4293-ba4f-7ed0c148a088",
+    "name": "short password",
+    "url": "http://127.0.0.1:3001/api-sign-up",
+    "method": "POST",
+    "sortNum": 50000,
+    "created": "2023-03-19T09:34:13.602Z",
+    "modified": "2023-03-19T09:46:53.605Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_name",
+          "value": "test_short_pass"
+        },
+        {
+          "name": "user_email",
+          "value": "test_short_pass@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "pass"
+        },
+        {
+          "name": "user_confirm_password",
+          "value": "pass"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "user_password"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "characters"
+      }
+    ]
+  },
+  {
+    "_id": "f55a1d15-6e22-4222-923a-3dbeb12aff0b",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "1c965241-c9b5-4293-ba4f-7ed0c148a088",
+    "name": "long password ",
+    "url": "http://127.0.0.1:3001/api-sign-up",
+    "method": "POST",
+    "sortNum": 60000,
+    "created": "2023-03-19T09:34:54.131Z",
+    "modified": "2023-03-19T09:46:41.171Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_name",
+          "value": "test_long_pass"
+        },
+        {
+          "name": "user_email",
+          "value": "test_long_pass@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "uwk0bmjEd2rXigmb6k2L9DCkBX8DwAYWD8NCaZMmtVuZLpN38sutF1Y9zrWjU0fDzh232LH"
+        },
+        {
+          "name": "user_confirm_password",
+          "value": "uwk0bmjEd2rXigmb6k2L9DCkBX8DwAYWD8NCaZMmtVuZLpN38sutF1Y9zrWjU0fDzh232LH"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "user_password"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "characters"
+      }
+    ]
+  },
+  {
+    "_id": "813c1fd1-9b54-4756-b6bc-24a182eafb01",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "1c965241-c9b5-4293-ba4f-7ed0c148a088",
+    "name": "password no match",
+    "url": "http://127.0.0.1:3001/api-sign-up",
+    "method": "POST",
+    "sortNum": 70000,
+    "created": "2023-03-19T09:36:12.061Z",
+    "modified": "2023-03-19T09:46:23.204Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_name",
+          "value": "test_no_match"
+        },
+        {
+          "name": "user_email",
+          "value": "test_no_match@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "password"
+        },
+        {
+          "name": "user_confirm_password",
+          "value": "passwor"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "user_password and user_confirm_password do not match"
+      }
+    ]
+  },
+  {
+    "_id": "73ac1c65-ebe6-48f4-961a-3210fd0b9d2d",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "1c965241-c9b5-4293-ba4f-7ed0c148a088",
+    "name": "short username",
+    "url": "http://127.0.0.1:3001/api-sign-up",
+    "method": "POST",
+    "sortNum": 80000,
+    "created": "2023-03-19T09:49:35.443Z",
+    "modified": "2023-03-19T09:55:23.203Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_name",
+          "value": "tt"
+        },
+        {
+          "name": "user_email",
+          "value": "test_short_username@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "password"
+        },
+        {
+          "name": "user_confirm_password",
+          "value": "password"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "user_name"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "english letters"
+      }
+    ]
+  },
+  {
+    "_id": "67a7b735-26ea-436a-8d8a-be27b2e56a46",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "1c965241-c9b5-4293-ba4f-7ed0c148a088",
+    "name": "long username",
+    "url": "http://127.0.0.1:3001/api-sign-up",
+    "method": "POST",
+    "sortNum": 90000,
+    "created": "2023-03-19T09:51:00.650Z",
+    "modified": "2023-03-19T09:54:52.410Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_name",
+          "value": "test_long_username"
+        },
+        {
+          "name": "user_email",
+          "value": "test_long_username@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "password"
+        },
+        {
+          "name": "user_confirm_password",
+          "value": "password"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "user_name"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "english letters"
+      }
+    ]
+  },
+  {
+    "_id": "32a7100f-34bd-4d48-8fd4-cf12344d2e6c",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "96dec8de-4ef3-4b7a-a4d2-d84a048ff8e5",
+    "name": "succes",
+    "url": "http://127.0.0.1:3001/api-login",
+    "method": "POST",
+    "sortNum": 80000,
+    "created": "2023-03-19T20:28:37.058Z",
+    "modified": "2023-03-19T20:36:15.866Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_email",
+          "value": "test@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "password"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "success login"
+      }
+    ]
+  },
+  {
+    "_id": "53373dbf-6a3f-4925-a7db-98daa18dc1ae",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "96dec8de-4ef3-4b7a-a4d2-d84a048ff8e5",
+    "name": "user not found",
+    "url": "http://127.0.0.1:3001/api-login",
+    "method": "POST",
+    "sortNum": 90000,
+    "created": "2023-03-19T20:30:55.183Z",
+    "modified": "2023-03-19T20:44:01.595Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_email",
+          "value": "test_test@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "password"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "Cannot login"
+      }
+    ]
+  },
+  {
+    "_id": "fb10f251-2899-49a9-8ad5-3e28afdc7cfe",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "96dec8de-4ef3-4b7a-a4d2-d84a048ff8e5",
+    "name": "wrong password",
+    "url": "http://127.0.0.1:3001/api-login",
+    "method": "POST",
+    "sortNum": 100000,
+    "created": "2023-03-19T20:32:10.406Z",
+    "modified": "2023-03-19T20:34:29.999Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_email",
+          "value": "test@gmail.com"
+        },
+        {
+          "name": "user_password",
+          "value": "password123"
+        }
+      ]
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "400"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": ""
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "cannot login"
+      }
+    ]
   }
 ]

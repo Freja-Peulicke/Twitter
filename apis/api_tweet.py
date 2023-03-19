@@ -15,7 +15,7 @@ def _():
         tweet_image = ""
         tweet_created_at = int(time.time())
         tweet_user_fk = "a1e871848d5b41c59ae4cafa7b907503"
-        db.execute("INSERT INTO tweets (id, message, image, created_at, user_fk) VALUES(?, ?, ?, ?, ?)",
+        db.execute("INSERT INTO tweets (tweet_id, tweet_message, tweet_image, tweet_created_at, tweet_user_fk) VALUES(?, ?, ?, ?, ?)",
                    (tweet_id, tweet_message, tweet_image, tweet_created_at, tweet_user_fk))
         db.commit()
         return {"info": "ok", "tweet_id": tweet_id}

@@ -13,7 +13,7 @@
                         </svg>
                     </a>
                     <div class="flex flex-col ">
-                        <h1 class="flex pl-12 text-xl font-bold"> {{user["first_name"] + " " + user["last_name"]}} <svg
+                        <h1 class="flex pl-12 text-xl font-bold"> {{user["user_first_name"] + " " + user["user_last_name"]}} <svg
                                 viewBox="0 0 24 24" aria-label="Verified account" role="img" class="w-5 fill-twitter">
                                 <g>
                                     <path
@@ -22,12 +22,12 @@
                                 </g>
                             </svg>
                         </h1>
-                        <p class="pl-12 text-sm text-gray-500">{{user["total_tweets"]}} Tweets</p>
+                        <p class="pl-12 text-sm text-gray-500">{{user["user_total_tweets"]}} Tweets</p>
                     </div>
                 </div>
                 <div class="relative z-0">
-                    <img src="/banners/{{user['id']}}.jpg" alt="">
-                    <img src="/avatars/{{user['id']}}.jpg" alt=""
+                    <img src="/banners/{{user['user_id']}}.jpg" alt="">
+                    <img src="/avatars/{{user['user_id']}}.jpg" alt=""
                         class="absolute bottom-0 translate-y-1/2 border-4 border-white rounded-full w-36 left-6">
                 </div>
                 <div class="flex items-start justify-end h-20 px-4 py-2">
@@ -41,7 +41,7 @@
                     <button class="px-3 py-1.5 text-white bg-black rounded-full font-bold inline">Follow</button>
                 </div>
                 <div class="flex flex-col">
-                    <h1 class="flex text-lg font-bold">{{user["first_name"] + " " + user["last_name"]}} <svg viewBox="0 0 24 24"
+                    <h1 class="flex text-lg font-bold">{{user["user_first_name"] + " " + user["user_last_name"]}} <svg viewBox="0 0 24 24"
                             aria-label="Verified account" role="img" class="w-5 fill-twitter">
                             <g>
                                 <path
@@ -50,7 +50,7 @@
                             </g>
                         </svg>
                     </h1>
-                    <p>@{{user["username"]}}</p>
+                    <p>@{{user["user_name"]}}</p>
                     <div class="flex">
                         <svg viewBox="0 0 24 24" aria-hidden="true" class="w-6">
                             <g>
@@ -62,8 +62,8 @@
                         <p>Joined June 2009</p>
                     </div>
                     <div class="flex">
-                        <p><span class="font-bold">{{user["total_following"]}}</span> Following</p>
-                        <p><span class="font-bold">{{user["total_followers"]}}</span> Followers</p>
+                        <p><span class="font-bold">{{user["user_total_following"]}}</span> Following</p>
+                        <p><span class="font-bold">{{user["user_total_followers"]}}</span> Followers</p>
                     </div>
                     <p>Followed by Michelle Obama and 10 others you follow</p>
                 </div>
@@ -79,11 +79,11 @@
                     <div
                         class="flex px-4 border-b border-gray-100 cursor-pointer dark:border-dim-border hover:bg-gray-50 dark:hover:bg-opacity-5">
                         <div class="py-2 mr-4">
-                            <img class="w-12 rounded-full max-w-none" src="/avatars/{{user['id']}}.jpg" alt="">
+                            <img class="w-12 rounded-full max-w-none" src="/avatars/{{user['user_id']}}.jpg" alt="">
                         </div>
                         <div class="relative pt-2 grow">
                             <div class="flex text-sm"><span class="flex font-bold">
-                                    {{user["first_name"] + " " + user["last_name"]}}
+                                    {{user["user_first_name"] + " " + user["user_last_name"]}}
                                     <svg viewBox="0 0 24 24" aria-label="Verified account" role="img" class="w-4 ml-1 fill-twitter">
                                         <g>
                                             <path
@@ -91,14 +91,14 @@
                                             </path>
                                         </g>
                                     </svg>
-                                </span><span class="ml-1 text-gray-600 dark:text-gray-400"><span>@{{user["username"]}}</span> ·
+                                </span><span class="ml-1 text-gray-600 dark:text-gray-400"><span>@{{user["user_name"]}}</span> ·
                                     <span>
                                         25m</span></span>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-900 dark:text-gray-200">{{tweet["message"]}}</p>
-                                % if tweet.get('image'):
-                                <img src="/tweets/{{tweet['image']}}.jpg" class="object-contain w-full mt-4 rounded-lg max-h-96">
+                                <p class="text-sm text-gray-900 dark:text-gray-200">{{tweet["tweet_message"]}}</p>
+                                % if tweet.get('tweet_image'):
+                                <img src="/tweets/{{tweet['tweet_image']}}.jpg" class="object-contain w-full mt-4 rounded-lg max-h-96">
                                 % end
                             </div>
                             <div
@@ -114,7 +114,7 @@
                                             </g>
                                         </svg>
                                     </div>
-                                    <span class="text-xs duration-200 group-hover:text-twitter">{{tweet["replies"]}}</span>
+                                    <span class="text-xs duration-200 group-hover:text-twitter">{{tweet["tweet_replies"]}}</span>
                                 </div>
                                 <div class="flex items-center justify-center cursor-pointer group">
                                     <div
@@ -127,7 +127,7 @@
                                             </g>
                                         </svg>
                                     </div>
-                                    <span class="text-xs duration-200 group-hover:text-green-600">{{tweet["retweets"]}}</span>
+                                    <span class="text-xs duration-200 group-hover:text-green-600">{{tweet["tweet_retweets"]}}</span>
                                 </div>
                                 <div class="flex items-center justify-center cursor-pointer group">
                                     <div
@@ -140,7 +140,7 @@
                                             </g>
                                         </svg>
                                     </div>
-                                    <span class="text-xs duration-200 group-hover:text-red-600">{{tweet["likes"]}}</span>
+                                    <span class="text-xs duration-200 group-hover:text-red-600">{{tweet["tweet_likes"]}}</span>
                                 </div>
                                 <div class="items-center justify-center hidden cursor-pointer sm:flex group">
                                     <div
@@ -153,7 +153,7 @@
                                             </g>
                                         </svg>
                                     </div>
-                                    <span class="text-xs duration-200 group-hover:text-twitter">{{tweet["views"]}}</span>
+                                    <span class="text-xs duration-200 group-hover:text-twitter">{{tweet["tweet_views"]}}</span>
                                 </div>
                                 <div class="flex items-center justify-center cursor-pointer group">
                                     <div

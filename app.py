@@ -2,7 +2,6 @@ from bottle import default_app, get, post, request, response, run, static_file, 
 import x
 
 
-
 # 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
 # https://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@github.com/frej1187/twitter.git
 #########################
@@ -34,16 +33,14 @@ def git_update():
 @get("/")
 def render_index():
     try:
-        response.add_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
-        response.add_header("Pragma", "no-cache")
-        response.add_header("Expires", 0)
+        x.disable_cache()
 
         logged_in_user = request.get_cookie("user", secret="my-secret")
 
         db = x.db()
         suggested_followers = get_suggested_followers()
         tweets = db.execute(
-            "SELECT users.id AS user_id, message, image, tweets.created_at AS tweet_created_at, replies, retweets, likes, views, username, first_name, last_name FROM tweets JOIN users ON user_fk = users.id ORDER BY RANDOM() LIMIT 5").fetchall()
+            "SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY RANDOM() LIMIT 5").fetchall()
         return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user)
     except Exception as ex:
         print(ex)
@@ -56,19 +53,17 @@ def render_index():
 @get("/<username>")
 def _(username):
     try:
-        response.add_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
-        response.add_header("Pragma", "no-cache")
-        response.add_header("Expires", 0)
+        x.disable_cache()
  
-        logged_in_user = request.get_cookie("user", secret="my-secret")
+        logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
         suggested_followers = get_suggested_followers()
         db = x.db()
         user = db.execute(
-            "SELECT * FROM users WHERE username=? COLLATE NOCASE", (username,)).fetchall()[0]
+            "SELECT * FROM users WHERE user_name=? COLLATE NOCASE", (username,)).fetchall()[0]
         tweets = db.execute(
-            "SELECT * FROM tweets WHERE user_fk=?", (user["id"],)).fetchall()
-        title = user["first_name"] + " " + user["last_name"] + \
-            " (@" + user["username"] + ") / Twitter"
+            "SELECT * FROM tweets WHERE tweet_user_fk=?", (user["user_id"],)).fetchall()
+        title = user["user_first_name"] + " " + user["user_last_name"] + \
+            " (@" + user["user_name"] + ") / Twitter"
         return template("profile", user=user, suggested_followers=suggested_followers, tweets=tweets, title=title, logged_in_user=logged_in_user)
         # return "test"
     except Exception as ex:
@@ -77,6 +72,20 @@ def _(username):
     finally:
         if "db" in locals():
             db.close()
+
+
+###############################################################
+@get("/sign-up")
+def _():
+    x.disable_cache()
+    user = request.get_cookie("user", secret=x.COOKIE_SECRET)
+    if user:
+        response.status = 303
+        response.set_header("Location", f"/{user['user_name']}")
+        return
+    return template("sign_up") 
+
+###############################################################
 
 # ny kode med login og logout, skiftes ud med ny side i views/login.py
 @get("/login")
@@ -92,11 +101,6 @@ def _():
     return
 ##################################################
 
-# funktion der gør at vi kan bruge keys fra databasen når vi skal kigge i data'en
-# Så vi kan bruge user["user_id"], user["user_name"], user["user_email"] etc. i stedet for user[0], user[1], user[2] etc,
-def dict_factory(cursor, row):
-    col_names = [col[0] for col in cursor.description]
-    return {key: value for key, value in zip(col_names, row)}
 
 # Henter 3 rækker fra vores users table i databasen, som vi bruger til suggested followers
 def get_suggested_followers():
@@ -137,9 +141,7 @@ def _(filename):
     return static_file(filename, root="./" + web_folder + "images/tweets")
 
 ##############################
-# BRIDGE 
-# Slettes når rigtigt login er lavet
-import bro.login
+
 
 ##############################
 # VIEWS
@@ -148,7 +150,8 @@ import views.tweet
 ##############################
 # APIS
 import apis.api_tweet
-#import apis.api_sign_up
+import apis.api_sign_up
+import apis.api_login
 
 ##############################
 # Run in AWS

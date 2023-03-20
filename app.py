@@ -1,11 +1,34 @@
 from bottle import default_app, get, post, request, response, run, static_file, template
 import x
+import os
+import uuid
 
 
-# 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
-# https://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@github.com/frej1187/twitter.git
+# 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
+# https://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@github.com/frej1187/twitter.git
 #########################
 #########################
+
+@post("/upload-picture")
+def _():
+    try:
+        the_picture = request.files.get("picture")
+        name, ext = os.path.splitext(the_picture.filename)
+        if ext not in ( ".png", ".jpg", ".jpeg"):
+            response.status = 400
+            return "picture not allowed"
+        picture_name = str(uuid.uuid4().hex)
+        picture_name = picture_name + ext 
+        the_picture.save(f"pictures/{picture_name}")
+        return "picture uploaded"
+    except Exception as e:
+        print(e)
+    finally:
+        pass
+
+
+
+
 
 ### for at undgå at uploade de statiske filer, er ikke noget santiago har. 
 try:

@@ -57,3 +57,22 @@ async function login(){
     // Success
     location.href = `/${data.user_name}`
 }
+
+
+async function tweet(){
+    const frm = event.target // the form
+    const conn = await fetch("/tweet", {
+      method: "POST",
+      body: new FormData(frm)
+    })
+    // const data = await conn.text() // to get plain text
+    const data = await conn.json() // to get plain text
+    console.log(data)
+    const message = frm.querySelector("input[name='message']").value
+    console.log(message)
+    document.querySelector("#tweets").insertAdjacentHTML("afterbegin", 
+    `<div class="tweet">
+        <div>${data.tweet_id}</div>
+        <div>${message}</div>  
+      </div>`)
+  }

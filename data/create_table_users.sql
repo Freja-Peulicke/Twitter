@@ -1,4 +1,7 @@
+PRAGMA foreign_keys = ON;
+
 DROP TABLE IF EXISTS users;
+-- creadted at, kan være text fordi vi ikke skal lave matematik med det
 
 CREATE TABLE users(
   user_id                     TEXT NOT NULL UNIQUE,
@@ -9,7 +12,7 @@ CREATE TABLE users(
   user_first_name             TEXT NOT NULL,
   user_last_name              TEXT DEFAULT "",
   user_verified_at            INT  DEFAULT 0,
-  user_created_at             INT  NOT NULL,
+  user_created_at             INT  NOT NULL, 
   user_banner                 TEXT DEFAULT "",
   user_avatar                 TEXT DEFAULT "", 
   user_total_tweets           INT  DEFAULT 0,
@@ -22,7 +25,7 @@ INSERT INTO users VALUES("ccec0766e15a476f939058b13563b8b2","elonmusk@gmail.com"
 INSERT INTO users VALUES("bd17f1a11c2d462c8bd73ad28ed5b680","shakira@gmail.com", "shakira","1234","password", "Shakira", "",0, 1298900340, "bd17f1a11c2d462c8bd73ad28ed5b680", "bd17f1a11c2d462c8bd73ad28ed5b680",200, 0, 0);
 INSERT INTO users VALUES("a1e871848d5b41c59ae4cafa7b907503","michelleobama@gmail.com", "michelleobama","1234","password", "Michelle", "Obama",0, 1298900340, "a1e871848d5b41c59ae4cafa7b907503", "a1e871848d5b41c59ae4cafa7b907503",2050, 0, 0);
 
--- CREATE UNIQUE INDEX idx_users_username ON users(user_name);
+ CREATE UNIQUE INDEX idx_users_username ON users(user_name);
 
 CREATE INDEX idx_users_user_first_name ON users(user_first_name);
 CREATE INDEX idx_users_user_last_name ON users(user_last_name);
@@ -43,7 +46,8 @@ CREATE TABLE tweets(
     tweet_likes       INT  DEFAULT 0,
     tweet_views       INT  DEFAULT 0,
 
-    PRIMARY KEY(tweet_id)
+    PRIMARY KEY(tweet_id),
+    FOREIGN KEY(tweet_user_fk) REFERENCES users(user_id)
     )WITHOUT ROWID;
 
 INSERT INTO tweets VALUES ("fdf9bd43492641d7a0df94c543379a2e","","ec07a720fa2441b6a9e69b1636183a31","1677099006","ccec0766e15a476f939058b13563b8b2", 27200, 493000, 5659000, 857000000);
@@ -154,3 +158,7 @@ INSERT INTO tweets VALUES (
 3469000,
 11100000
 );
+
+
+
+INSERT INTO tweets VALUES ("fdf9bd43492641d7a0df94c5433a9a2e","Hallo","7686c830f91949e3bc3fdcbcd19f610e","1677099006","ccec0766e15a476f939058b13563b8b2", 0, 0, 0, 0);

@@ -5,7 +5,7 @@ import uuid
 
 
 # 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
-# https://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@github.com/frej1187/twitter.git
+
 #########################
 #########################
 
@@ -58,7 +58,7 @@ def render_index():
     try:
         x.disable_cache()
 
-        logged_in_user = request.get_cookie("user", secret="my-secret")
+        logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
 
         db = x.db()
         suggested_followers = get_suggested_followers()

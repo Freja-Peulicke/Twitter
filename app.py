@@ -100,7 +100,7 @@ def _(username):
 
 
 ###############################################################
-@get("/sign-up")
+@get("/signup")
 def _():
     x.disable_cache()
     user = request.get_cookie("user", secret=x.COOKIE_SECRET)
@@ -132,7 +132,7 @@ def get_suggested_followers():
     try:
         db = x.db()
         followers = db.execute(
-            "SELECT * FROM users LIMIT 3").fetchall()
+            "SELECT * FROM users ORDER BY RANDOM() LIMIT 3").fetchall()
         return followers
     except Exception as ex:
         print(ex)

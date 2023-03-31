@@ -8,6 +8,7 @@ import uuid
 
 #########################
 #########################
+#TO-DO : få styr på at uploade billeder
 
 @post("/upload-picture")
 def _():
@@ -84,7 +85,7 @@ def _(username):
         user = db.execute(
             "SELECT * FROM users WHERE user_name=? COLLATE NOCASE", (username,)).fetchall()[0]
         tweets = db.execute(
-            "SELECT * FROM tweets WHERE tweet_user_fk=?", (user["user_id"],)).fetchall()
+            "SELECT * FROM tweets WHERE tweet_user_fk=? ORDER BY tweet_created_at DESC", (user["user_id"],)).fetchall()
         title = user["user_first_name"] + " " + user["user_last_name"] + \
             " (@" + user["user_name"] + ") / Twitter"
         return template("profile", user=user, suggested_followers=suggested_followers, tweets=tweets, title=title, logged_in_user=logged_in_user)

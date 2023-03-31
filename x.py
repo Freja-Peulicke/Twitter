@@ -31,7 +31,7 @@ def db():
 ##############################
 # Validering af tweet 
 TWEET_MIN_LEN = 2
-TWEET_MAX_LEN = 5
+TWEET_MAX_LEN = 180
 
 
 def validate_tweet():

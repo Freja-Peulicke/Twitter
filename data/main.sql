@@ -159,6 +159,19 @@ INSERT INTO tweets VALUES (
 11100000
 );
 
+-- Triggers
+-- Increate user_total_tweets when a tweet is inserted/created
+DROP TRIGGER IF EXISTS increment_user_total_tweets;
+CREATE TRIGGER increment_user_total_tweets AFTER INSERT ON tweets
+BEGIN
+  UPDATE users 
+  SET user_total_tweets =  user_total_tweets + 1 
+  WHERE user_id = NEW.tweet_user_fk;
+END;
+
+
+SELECT * FROM users WHERE user_id = "a1e871848d5b41c59ae4cafa7b907503";
+SELECT user_name, user_total_tweets FROM users WHERE user_id = "a1e871848d5b41c59ae4cafa7b907503";
 
 
 INSERT INTO tweets VALUES ("fdf9bd43492641d7a0df94c5433a9a2e","Hallo","7686c830f91949e3bc3fdcbcd19f610e","1677099006","ccec0766e15a476f939058b13563b8b2", 0, 0, 0, 0);

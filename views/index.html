@@ -1,4 +1,5 @@
 % include("header", title="Home", home_active='class="active"', logged_in_user=logged_in_user)
+% import x
     <div class="flex flex-grow">
         <div class="flex flex-row w-full md:w-[600px] lg:w-[920px] xl:w-[990px] justify-between">
             <div class="w-auto md:w-[600px] min-h-screen h-full border-x border-solid border-gray-100 dark:border-dim-border">
@@ -37,8 +38,9 @@
                         <div class="px-4 py-2">
                             <img class="w-12 rounded-full" src="images/profile.jpg" alt="">
                         </div>
-                        <div class="grow">
-                            <textarea
+                        <form class="grow" method="POST" onsubmit="validate(tweet); return false">
+                            <textarea input name="message" type="text"
+                            data-validate="str" data-min="{{x.TWEET_MIN_LEN}}" data-max="{{x.TWEET_MAX_LEN}}"
                                 class="w-full h-20 py-4 text-lg bg-transparent resize-none placeholder:text-gray-600 dark:placeholder:text-gray-400 focus:outline-none"
                                 placeholder="What's happening?"></textarea>
                             <div class="flex justify-between">
@@ -88,10 +90,11 @@
                                 </div>
                                 <div class="pr-4">
                                     <button
-                                        class="w-full px-4 py-2 text-sm font-bold leading-4 text-white rounded-full opacity-50 bg-twitter"><span>Tweet</span></button>
+                                        class="w-full px-4 py-2 text-sm font-bold leading-4 text-white rounded-full bg-twitter hover:bg-twitter-dark"><span>Tweet</span>
+                                    </button>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     % for tweet in tweets:
                     <div class="flex px-4 border-b border-gray-100 cursor-pointer dark:border-dim-border hover:bg-gray-50 dark:hover:bg-opacity-5">
@@ -208,5 +211,6 @@
             % include("right", suggested_followers=suggested_followers);
         </div>
     </div>
+    
 
 % include("footer")

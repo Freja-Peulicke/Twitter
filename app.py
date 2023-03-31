@@ -46,8 +46,9 @@ except Exception as ex:
 def git_update():
     repo = git.Repo('./twitter')
     origin = repo.remotes.origin
-    repo.create_head('main', origin.refs.main).set_tracking_branch(
-        origin.refs.main).checkout()
+    if not 'main' in repo.heads:
+        repo.create_head('main', origin.refs.main).set_tracking_branch(
+            origin.refs.main).checkout()
     origin.pull()
     return ""
 

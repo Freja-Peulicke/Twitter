@@ -1,7 +1,7 @@
 <div class="hidden lg:block w-[290px] xl:w-[350px]">
     <div class="sticky top-0 z-10 pt-1 pb-3 bg-white dark:bg-dim">
         <label
-            class="flex px-5 py-3 text-gray-700 bg-gray-100 border border-transparent rounded-full dark:bg-dim-border dark:bg-opacity-50 focus-within:bg-opacity-0 focus-within:border-twitter dark:text-gray-400 focus-within:text-twitter">
+            class="relative flex px-5 py-3 text-gray-700 bg-gray-100 border border-transparent rounded-full dark:bg-dim-border dark:bg-opacity-50 focus-within:bg-opacity-0 focus-within:border-twitter dark:text-gray-400 focus-within:text-twitter">
             <svg viewBox="0 0 24 24" aria-hidden="true" class="w-4.5 mr-4 fill-current">
                 <g>
                     <path
@@ -9,8 +9,9 @@
                     </path>
                 </g>
             </svg>
-            <input class="w-full text-sm bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 focus:outline-none"
+            <input id="search_input" oninput="search()" onclick="show_search_results()" onblur="hide_search_results()" class="w-full text-sm bg-transparent placeholder:text-gray-600 dark:placeholder:text-gray-400 focus:outline-none"
                 type="text" placeholder="Search Twitter">
+                <div id="search_results" class="absolute left-0 hidden w-full h-auto p-4 mt-0.5 bg-white border rounded-lg shadow-lg top-full"></div>
         </label>
     </div>
     <div class="overflow-hidden bg-gray-50 dark:bg-dim-border dark:bg-opacity-20 rounded-2xl">
@@ -36,4 +37,5 @@
         </div>
         <p class="px-4 py-3 text-sm cursor-pointer text-twitter hover:bg-gray-100 dark:hover:bg-dim-border dark:hover:bg-opacity-20">Show more</p>
     </div>
+    <script src="js/search.js"></script>
 </div>

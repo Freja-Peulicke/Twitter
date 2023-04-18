@@ -2,6 +2,7 @@ from bottle import default_app, get, post, request, response, run, static_file, 
 import x
 import os
 import uuid
+import time
 
 
 # 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
@@ -108,8 +109,28 @@ def _():
         response.status = 303
         response.set_header("Location", f"/{user['user_name']}")
         return
-    return template("sign_up") 
+    return template("signup") 
 
+###############################################################
+
+@get("/activate/<user_id>")
+def _(user_id):
+    try:
+        user_activated_at = int(time.time())
+        db = x.db()
+        total_rows_updated = db.execute("UPDATE users SET user_activated_at = ? WHERE user_id = ? AND user_activated_at = 0", (user_activated_at, user_id,)).rowcount
+        print(user_activated_at)
+        print(user_id)
+        if total_rows_updated != 1: raise Exception("Please, try again")
+        db.commit()
+        return template("activate", status="succes")
+    except Exception as ex:
+        print(ex)
+        response.status = 400
+        return template("activate", status="error")
+    finally:
+        if "db" in locals():
+            db.close()
 ###############################################################
 
 # ny kode med login og logout, skiftes ud med ny side i views/login.py
@@ -170,13 +191,15 @@ def _(filename):
 
 ##############################
 # VIEWS
-import views.tweet
+#import views.tweet
 
 ##############################
 # APIS
 import apis.api_tweet
 import apis.api_sign_up
 import apis.api_login
+import apis.api_like
+import apis.api_search
 
 ##############################
 # Run in AWS

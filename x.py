@@ -2,6 +2,9 @@ from bottle import request, response
 import sqlite3
 import pathlib
 import re
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 COOKIE_SECRET = "41ebeca46feb-4d77-a8e2-554659074C6319a2fbfb-9a2D-4fb6-Afcad32abb26a5e0"
 
@@ -26,6 +29,62 @@ def db():
         print(ex)
     finally:
         pass
+
+##############################
+
+### for at undgå at uploade de statiske filer, er ikke noget santiago har. 
+try:
+    import production
+    domain = "https://fpj.eu.pythonanywhere.com"
+# Run in local computer
+except Exception as ex:
+    domain = "http://127.0.0.1:3001"
+
+def sign_up_email(receiver_email, user_id):
+    try:
+        sender_email = "freja.peulicke@gmail.com"
+        password = "pliyoscaqcaahfjq"   
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "multipart test"
+        message["From"] = sender_email
+        message["To"] = receiver_email 
+        # Create the plain-text and HTML version of your message
+        text = f"""\
+        Hi,
+        Thank you for signing up, we are glad you are here!
+        Click here to activate: {domain}/activate/{user_id}"""
+        html = f"""\
+        <html>
+        <body>
+            <p>Hi,<br>
+            Thank you for signing up, we are glad you are here!<br>
+            <a href="{domain}/activate/{user_id}">Click here to activate</a>
+            </p>
+        </body>
+        </html>
+        """   
+        # Turn these into plain/html MIMEText objects
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
+
+        # Add HTML/plain-text parts to MIMEMultipart message
+        # The email client will try to render the last part first
+        message.attach(part1)
+        message.attach(part2)
+
+        # Create secure connection with server and send email
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(
+                sender_email, receiver_email, message.as_string()
+            )   
+    except:
+        pass
+    finally:
+        pass
+
+
 
 
 ##############################
@@ -110,10 +169,34 @@ def validate_user_confirm_password():
 	return request.forms.user_confirm_password
 
 #############################################
-
+def validate_tweet_id():
+    try:
+        tweet_id = request.forms.tweet_id.strip()
+        db_tweet_validate=db()
+        tweet = db_tweet_validate.execute("SELECT * FROM tweets WHERE tweet_id = ? LIMIT 1", (tweet_id,)).fetchone()
+        if not tweet: raise Exception(400, "Cannot like non existing tweet")
+        return tweet_id
+    except Exception as ex:
+        response.status = 400
+        return {"info": str(ex)}
+    finally:
+        if "db_tweet_validate" in locals():
+            db_tweet_validate.close()
 
 #############################################
-
+def validate_comment_id():
+    try:
+        comment_id = request.forms.comment_id
+        db_comment_validate=db()
+        comment = db_comment_validate.execute("SELECT * FROM comments WHERE comment_id = ? LIMIT 1", (comment_id,)).fetchone()
+        if not comment: raise Exception(400, "Cannot like non existing comment")
+        return comment_id
+    except Exception as ex:
+        response.status = 400
+        return {"info": str(ex)}
+    finally:
+        if "db_comment_validate" in locals():
+            db_comment_validate.close()
 
 
 #############################################

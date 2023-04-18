@@ -1,54 +1,109 @@
+-- UPDATE users SET user_activated_at = 0 WHERE user_id = "667d3c62af5a4b3f9fdaa8d1f7653bf6"
+
 PRAGMA foreign_keys = ON;
 
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users_fts;
 -- creadted at, kan være text fordi vi ikke skal lave matematik med det
-
+-- user_blue_at, user_gold_at, active skal tilføjes 
 CREATE TABLE users(
   user_id                     TEXT NOT NULL UNIQUE,
   user_email                  TEXT NOT NULL UNIQUE,
   user_name                   TEXT NOT NULL UNIQUE,
-  user_verification_key       TEXT NOT NULL,
+  user_gold_key               TEXT NOT NULL,
   user_password               TEXT NOT NULL,
   user_first_name             TEXT NOT NULL,
   user_last_name              TEXT DEFAULT "",
   user_verified_at            INT  DEFAULT 0,
   user_created_at             INT  NOT NULL, 
+  user_gold_at                INT  DEFAULT 0,
+  user_activated_at           INT  DEFAULT 0,
   user_banner                 TEXT DEFAULT "",
   user_avatar                 TEXT DEFAULT "", 
   user_total_tweets           INT  DEFAULT 0,
   user_total_followers        INT  DEFAULT 0,
   user_total_following        INT  DEFAULT 0,
   PRIMARY KEY(user_id)
-) WITHOUT ROWID;
+) WITHOUT rowid;
 
-INSERT INTO users VALUES("ccec0766e15a476f939058b13563b8b2","elonmusk@gmail.com", "elonmusk","1234","password", "Elon", "Musk",0, 1298900000, "ccec0766e15a476f939058b13563b8b2", "ccec0766e15a476f939058b13563b8b2",177, 0, 0);
-INSERT INTO users VALUES("bd17f1a11c2d462c8bd73ad28ed5b680","shakira@gmail.com", "shakira","1234","password", "Shakira", "",0, 1298900340, "bd17f1a11c2d462c8bd73ad28ed5b680", "bd17f1a11c2d462c8bd73ad28ed5b680",200, 0, 0);
-INSERT INTO users VALUES("a1e871848d5b41c59ae4cafa7b907503","michelleobama@gmail.com", "michelleobama","1234","password", "Michelle", "Obama",0, 1298900340, "a1e871848d5b41c59ae4cafa7b907503", "a1e871848d5b41c59ae4cafa7b907503",2050, 0, 0);
+/* CREATE VIRTUAL TABLE users_fts USING fts5 
+(
+  user_name,
+  user_first_name,
+  user_last_name,
+  content=users
+);
 
- CREATE UNIQUE INDEX idx_users_username ON users(user_name);
+CREATE TRIGGER users_fts_insert AFTER INSERT ON users
+BEGIN
+    INSERT INTO users_fts (user_name, user_first_name, user_last_name) VALUES (new.user_name, new.user_first_name, new.user_last_name);
+END;
+
+CREATE TRIGGER users_fts_delete AFTER DELETE ON users
+BEGIN
+    INSERT INTO users_fts (users_fts, user_name, user_first_name, user_last_name) VALUES ('delete', old.user_name, old.user_first_name, old.user_last_name);
+END;
+
+CREATE TRIGGER users_fts_update AFTER UPDATE ON users
+BEGIN
+    INSERT INTO users_fts (users_fts, user_name, user_first_name, user_last_name) VALUES ('delete', old.user_name, old.user_first_name, old.user_last_name);
+    INSERT INTO users_fts (user_name, user_first_name, user_last_name) VALUES (new.user_name, new.user_first_name, new.user_last_name);
+END; */
+
+
+
+INSERT INTO users VALUES("ccec0766e15a476f939058b13563b8b2","elonmusk@gmail.com", "elonmusk","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Elon", "Musk",0, 1298900000,0,0, "ccec0766e15a476f939058b13563b8b2", "ccec0766e15a476f939058b13563b8b2",177, 0, 0);
+INSERT INTO users VALUES("bd17f1a11c2d462c8bd73ad28ed5b680","shakira@gmail.com", "shakira","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Shakira", "",0, 1298900340,0,0, "bd17f1a11c2d462c8bd73ad28ed5b680", "bd17f1a11c2d462c8bd73ad28ed5b680",200, 0, 0);
+INSERT INTO users VALUES("a1e871848d5b41c59ae4cafa7b907503","michelleobama@gmail.com", "michelleobama","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Michelle", "Obama",0, 1298900340,0,0, "a1e871848d5b41c59ae4cafa7b907503", "a1e871848d5b41c59ae4cafa7b907503",2050, 0, 0);
+
+CREATE UNIQUE INDEX idx_users_username ON users(user_name);
 
 CREATE INDEX idx_users_user_first_name ON users(user_first_name);
 CREATE INDEX idx_users_user_last_name ON users(user_last_name);
 CREATE INDEX idx_users_user_avatar ON users(user_avatar);
 
+-- SELECT * FROM users_fts WHERE users_fts MATCH 'lo';
+
 --##### Tweets 
 
 DROP TABLE IF EXISTS tweets;
+DROP TABLE IF EXISTS tweets_fts;
 
 CREATE TABLE tweets(
-    tweet_id          TEXT NOT NULL UNIQUE,
-    tweet_message     TEXT DEFAULT "",
-    tweet_image       TEXT DEFAULT "",
-    tweet_created_at  INT  NOT NULL,
-    tweet_user_fk     TEXT NOT NULL,
-    tweet_replies     INT  DEFAULT 0,
-    tweet_retweets    INT  DEFAULT 0,
-    tweet_likes       INT  DEFAULT 0,
-    tweet_views       INT  DEFAULT 0,
+  tweet_id          TEXT NOT NULL UNIQUE,
+  tweet_message     TEXT DEFAULT "",
+  tweet_image       TEXT DEFAULT "",
+  tweet_created_at  INT  NOT NULL,
+  tweet_user_fk     TEXT NOT NULL,
+  tweet_replies     INT  DEFAULT 0,
+  tweet_retweets    INT  DEFAULT 0,
+  tweet_likes       INT  DEFAULT 0,
+  tweet_views       INT  DEFAULT 0,
+  PRIMARY KEY(tweet_id),
+  FOREIGN KEY(tweet_user_fk) REFERENCES users(user_id)
+) WITHOUT ROWID;
 
-    PRIMARY KEY(tweet_id),
-    FOREIGN KEY(tweet_user_fk) REFERENCES users(user_id)
-    )WITHOUT ROWID;
+CREATE VIRTUAL TABLE tweets_fts USING fts5 
+(
+  tweet_message,
+  tweet_id UNINDEXED
+);
+
+CREATE TRIGGER tweets_fts_insert AFTER INSERT ON tweets
+BEGIN
+    INSERT INTO tweets_fts (tweet_message, tweet_id) VALUES (new.tweet_message, new.tweet_id);
+END;
+
+CREATE TRIGGER tweets_fts_delete AFTER DELETE ON tweets
+BEGIN
+    INSERT INTO tweets_fts (tweets_fts, tweet_message, tweet_id) VALUES ('delete', old.tweet_message, old.tweet_id);
+END;
+
+CREATE TRIGGER tweets_fts_update AFTER UPDATE ON tweets
+BEGIN
+    INSERT INTO tweets_fts (tweets_fts, tweet_message, tweet_id) VALUES ('delete', old.tweet_message, old.tweet_id);
+    INSERT INTO tweets_fts (tweet_message, tweet_id) VALUES (new.tweet_message, new.tweet_id);
+END;
 
 INSERT INTO tweets VALUES ("fdf9bd43492641d7a0df94c543379a2e","","ec07a720fa2441b6a9e69b1636183a31","1677099006","ccec0766e15a476f939058b13563b8b2", 27200, 493000, 5659000, 857000000);
 INSERT INTO tweets VALUES ("5160b233a2e3478d9abfe6a977a79fb7","High time I confessed I let the Doge out","99b43aa0abe04561a90debed1c436a94",1677081006,"ccec0766e15a476f939058b13563b8b2",14700, 20400, 235000, 474000000);
@@ -158,6 +213,36 @@ INSERT INTO tweets VALUES (
 3469000,
 11100000
 );
+
+-- SELECT * FROM tweets_fts WHERE tweets_fts MATCH 'for';
+
+DROP TABLE IF EXISTS comments;
+CREATE TABLE comments (
+  comment_id          TEXT NOT NULL UNIQUE,
+  user_id             TEXT NOT NULL,
+  tweet_id            TEXT,
+  comments_id         TEXT,
+  comment             TEXT NOT NULL,
+  created_at          INT NOT NULL,
+  total_comments      INT DEFAULT 0, 
+  total_retweets      INT DEFAULT 0, 
+  total_likes         INT DEFAULT 0, 
+  total_views         INT DEFAULT 0,
+  PRIMARY KEY(comment_id)
+) WITHOUT ROWID;
+
+
+DROP TABLE IF EXISTS likes;
+CREATE TABLE likes (
+  like_id                  TEXT NOT NULL UNIQUE,
+  like_user_fk             TEXT NOT NULL,
+  like_tweet_fk            TEXT,
+  like_comment_fk          TEXT,
+  like_created_at          INT NOT NULL,
+  PRIMARY KEY(like_id)
+) WITHOUT ROWID;
+
+-- INSERT INTO likes (like_id, like_user_fk, like_tweet_fk, like_comment_fk, like_created_at) VALUES ("1234", "bd17f1a11c2d462c8bd73ad28ed5b680", "5160b233a2e3478d9abfe6a977a79fb7", "", "0")
 
 -- Triggers
 -- Increate user_total_tweets when a tweet is inserted/created

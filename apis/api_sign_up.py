@@ -11,6 +11,7 @@ def _():
         user_name = x.validate_user_name()
         user_password = x.validate_user_password()
         user_password_encoded = user_password.encode()
+        
         x.validate_user_confirm_password()
 
         salt = bcrypt.gensalt()
@@ -20,12 +21,14 @@ def _():
             "user_id" : user_id,
             "user_email" : user_email,            
             "user_name" : user_name,
-            "user_verification_key" : str(uuid.uuid4()).replace("-",""),
+            "user_gold_key" : "",
             "user_password": bcrypt.hashpw(user_password_encoded, salt),
             "user_first_name" : "",
             "user_last_name" : "",
             "user_verified_at" : 0,
             "user_created_at" : int(time.time()),
+            "user_gold_at" : 0,
+            "user_activated_at" : 0,
             "user_banner" : "",
             "user_avatar" : "",
             "user_total_tweets" : 0,
@@ -49,6 +52,7 @@ def _():
         #     :user_total_followers, :user_total_following,)""", user).rowcount
         if total_rows_inserted != 1: raise Exception("Please, try again")
         db.commit()
+        x.sign_up_email(user_email, user_id)
         return {
             "info" : "user created", 
             "user_id" : user_id

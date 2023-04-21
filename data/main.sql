@@ -1,6 +1,6 @@
 -- UPDATE users SET user_activated_at = 0 WHERE user_id = "667d3c62af5a4b3f9fdaa8d1f7653bf6"
 
-PRAGMA foreign_keys = ON;
+-- PRAGMA foreign_keys = ON;
 
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS users_fts;
@@ -63,6 +63,17 @@ CREATE INDEX idx_users_user_last_name ON users(user_last_name);
 CREATE INDEX idx_users_user_avatar ON users(user_avatar);
 
 -- SELECT * FROM users_fts WHERE users_fts MATCH 'lo';
+
+DROP TABLE IF EXISTS followers;
+CREATE TABLE followers (
+follower_fk         TEXT,
+followee_fk         TEXT,
+followed_at         INT NOT NULL 
+);
+
+
+
+
 
 --##### Tweets 
 
@@ -255,8 +266,40 @@ BEGIN
 END;
 
 
-SELECT * FROM users WHERE user_id = "a1e871848d5b41c59ae4cafa7b907503";
-SELECT user_name, user_total_tweets FROM users WHERE user_id = "a1e871848d5b41c59ae4cafa7b907503";
+DROP TRIGGER IF EXISTS increment_user_total_followers;
+CREATE TRIGGER increment_user_total_followers AFTER INSERT ON followers
+BEGIN
+  UPDATE users 
+  SET user_total_followers =  user_total_followers + 1 
+  WHERE user_id = NEW.followee_fk;
+END;
+
+DROP TRIGGER IF EXISTS decrement_user_total_followers;
+CREATE TRIGGER decrement_user_total_followers AFTER DELETE ON followers
+BEGIN
+  UPDATE users 
+  SET user_total_followers =  user_total_followers - 1 
+  WHERE user_id = OLD.followee_fk;
+END;
 
 
-INSERT INTO tweets VALUES ("fdf9bd43492641d7a0df94c5433a9a2e","Hallo","7686c830f91949e3bc3fdcbcd19f610e","1677099006","ccec0766e15a476f939058b13563b8b2", 0, 0, 0, 0);
+
+DROP TRIGGER IF EXISTS increment_user_total_following;
+CREATE TRIGGER increment_user_total_following AFTER INSERT ON followers
+BEGIN
+  UPDATE users 
+  SET user_total_following = user_total_following + 1 
+  WHERE user_id = NEW.follower_fk;
+END;
+
+DROP TRIGGER IF EXISTS decrement_user_total_following;
+CREATE TRIGGER decrement_user_total_following AFTER DELETE ON followers
+BEGIN
+  UPDATE users 
+  SET user_total_following = user_total_following - 1 
+  WHERE user_id = OLD.follower_fk;
+END;
+
+
+
+-- SELECT * FROM users JOIN followers ON users.user_id = followers.followee_fk ORDER BY RANDOM() LIMIT 3

@@ -90,7 +90,13 @@ def _(username):
             "SELECT * FROM tweets WHERE tweet_user_fk=? ORDER BY tweet_created_at DESC", (user["user_id"],)).fetchall()
         title = user["user_first_name"] + " " + user["user_last_name"] + \
             " (@" + user["user_name"] + ") / Twitter"
-        return template("profile", user=user, suggested_followers=suggested_followers, tweets=tweets, title=title, logged_in_user=logged_in_user)
+        followed = False
+        if logged_in_user:
+            follow_data = db.execute(
+                "SELECT * FROM followers WHERE follower_fk = ? AND followee_fk = ?", (logged_in_user["user_id"], user["user_id"],)).fetchone()
+            if follow_data:
+                followed = True
+        return template("profile", user=user, suggested_followers=suggested_followers, tweets=tweets, title=title, logged_in_user=logged_in_user, followed=followed)
         # return "test"
     except Exception as ex:
         print(ex)
@@ -151,6 +157,7 @@ def _():
 # Henter 3 rækker fra vores users table i databasen, som vi bruger til suggested followers
 def get_suggested_followers():
     try:
+        #logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
         db = x.db()
         followers = db.execute(
             "SELECT * FROM users ORDER BY RANDOM() LIMIT 3").fetchall()
@@ -200,6 +207,8 @@ import apis.api_sign_up
 import apis.api_login
 import apis.api_like
 import apis.api_search
+import apis.api_follow
+import apis.api_unfollow
 
 ##############################
 # Run in AWS

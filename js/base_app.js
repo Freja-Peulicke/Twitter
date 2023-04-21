@@ -77,6 +77,77 @@ async function tweet(){
       </div>`)
   }
 
+  ///////////////////////////////////////////////
+
+  function show_search_results(){
+    if(document.querySelector("#search_results").innerHTML != ""){
+        document.querySelector("#search_results").classList.remove("hidden")
+    }
+}
+
+function hide_search_results(){
+    document.querySelector("#search_results").classList.add("hidden")
+}
+
+let the_timer;
+function search(){
+    clearTimeout(the_timer);
+    the_timer = setTimeout( async function(){
+        let query = document.querySelector("#search_input").value;
+        const conn = await fetch("/search",{
+            method : "POST",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: '{"query": "'+query+'"}'
+        })
+        const data = await conn.json()
+        console.log(data)
+        // loop and shop the names in the div
+        let results = ""
+        document.querySelector("#search_results").innerHTML = ""
+        data.forEach( (item)=>{
+            if(item.hasOwnProperty('tweet_message')){
+                console.log(item.tweet_message)
+                results += `<div class="text-sm mb-3 text-black">${item.tweet_message}</div>`
+            }
+        })
+        document.querySelector("#search_results").insertAdjacentHTML('afterbegin',results);
+        show_search_results();
+    }, 500 );
+}
+
+//////////////////////////////////////////////////////
+
+async function follow_unfollow(followee_id){
+    const btn = event.target
+	const api = btn.innerText == "Follow" ? "/api-follow" : "/api-unfollow"
+	const dom_profile_total_followers = document.querySelector("#profile_total_followers")
+    btn.disabled = true
+    
+    const conn = await fetch(api,{
+        method : "POST",
+        headers: {"Content-Type":"application/json"},
+        body: '{"followee": "'+followee_id+'"}'
+    })
+    
+	const data = await conn.json()
+    if( !conn.ok ){
+        console.log(data)
+        showTip(data.info)        
+        return
+    }
+	if(api == "/api-follow"){
+		dom_profile_total_followers.innerText = parseInt(dom_profile_total_followers.innerText) + 1
+	}else{
+		dom_profile_total_followers.innerText = parseInt(dom_profile_total_followers.innerText) - 1 
+	}
+    //shorthand if (forkortet if/else statement)
+	btn.innerText = api == "/api-follow" ? "Unfollow" : "Follow"    
+    btn.disabled = false
+    // Success
+    console.log("ok follow")
+}
 
 
 

@@ -38,7 +38,9 @@
                             </path>
                         </g>
                     </svg>
-                    <button class="px-3 py-1.5 text-white bg-black rounded-full font-bold inline">Follow</button>
+                    % if logged_in_user:
+                    <button class="px-3 py-1.5 text-white bg-black rounded-full font-bold inline" onclick="follow_unfollow('{{user["user_id"]}}')">{{"Unfollow" if followed else "Follow"}}</button>
+                    % end
                 </div>
                 <div class="flex flex-col">
                     <h1 class="flex text-lg font-bold">{{user["user_first_name"] + " " + user["user_last_name"]}} <svg viewBox="0 0 24 24"
@@ -62,8 +64,8 @@
                         <p>Joined June 2009</p>
                     </div>
                     <div class="flex">
-                        <p><span class="font-bold">{{user["user_total_following"]}}</span> Following</p>
-                        <p><span class="font-bold">{{user["user_total_followers"]}}</span> Followers</p>
+                        <p><span id="profile_total_following" class="font-bold">{{user["user_total_following"]}}</span> Following</p>
+                        <p><span id="profile_total_followers" class="font-bold">{{user["user_total_followers"]}}</span> Followers</p>
                     </div>
                     <p>Followed by Michelle Obama and 10 others you follow</p>
                 </div>

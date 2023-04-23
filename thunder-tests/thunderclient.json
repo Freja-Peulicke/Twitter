@@ -527,7 +527,7 @@
     "method": "POST",
     "sortNum": 80000,
     "created": "2023-03-19T20:28:37.058Z",
-    "modified": "2023-03-31T07:48:40.425Z",
+    "modified": "2023-04-22T11:57:59.296Z",
     "headers": [],
     "params": [],
     "body": {
@@ -536,11 +536,11 @@
       "form": [
         {
           "name": "user_email",
-          "value": "elonmusk@gmail.com"
+          "value": "freja.peulicke@gmail.com"
         },
         {
           "name": "user_password",
-          "value": "password"
+          "value": "123456"
         }
       ]
     },
@@ -765,6 +765,53 @@
     "body": {
       "type": "json",
       "raw": "{\"followee\": \"a1e871848d5b41c59ae4cafa7b907503\"}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "bf3eb3f2-9d36-4562-ab4b-4d57ca1a9bd6",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "05417954-bc05-44e6-879a-96c26234db3e",
+    "name": "succes",
+    "url": "http://127.0.0.1:3001/api-gold",
+    "method": "POST",
+    "sortNum": 160000,
+    "created": "2023-04-23T18:30:41.259Z",
+    "modified": "2023-04-23T18:31:22.512Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "74468562-55ba-4bf0-a094-b77819543ee1",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "2802682b-67b0-49ff-ada2-3da32dceefd5",
+    "name": "logout",
+    "url": "http://127.0.0.1:3001/logout",
+    "method": "GET",
+    "sortNum": 170000,
+    "created": "2023-04-23T18:33:49.846Z",
+    "modified": "2023-04-23T18:34:46.794Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "61ea3a01-ef3c-4de3-99a8-bb3c423d01ad",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "450271f7-d362-4ec4-82ac-e4a310bd8dc7",
+    "name": "succes",
+    "url": "http://127.0.0.1:3001/api-gold-verify",
+    "method": "POST",
+    "sortNum": 180000,
+    "created": "2023-04-23T18:36:23.489Z",
+    "modified": "2023-04-23T18:37:23.824Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"verify_code\": \"1937\"\n}",
       "form": []
     },
     "tests": []

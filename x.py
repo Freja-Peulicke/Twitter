@@ -120,6 +120,19 @@ def validate_user_name():
     return request.forms.user_name
 
 
+USER_PHONE_MIN = 8
+USER_PHONE_MAX = 8
+USER_PHONE_REGEX = "^[0-9]*$"
+
+def validate_user_phone():
+    print("*"*30)
+    print(request.forms.user_phone)
+    error = f"user_phone {USER_PHONE_MIN} to {USER_PHONE_MAX} number from 0 to 9"
+    request.forms.user_phone = request.forms.user_phone.strip()
+    if len(request.forms.user_phone) < USER_PHONE_MIN: raise Exception(400, error)
+    if len(request.forms.user_phone) > USER_PHONE_MAX: raise Exception(400, error)
+    if not re.match(USER_PHONE_REGEX, request.forms.user_phone): raise Exception(400, error)
+    return request.forms.user_phone
 #############################################
 # Funktion der deaktivere cache
 def disable_cache():
@@ -169,9 +182,8 @@ def validate_user_confirm_password():
 	return request.forms.user_confirm_password
 
 #############################################
-def validate_tweet_id():
+def validate_tweet_id(tweet_id):
     try:
-        tweet_id = request.forms.tweet_id.strip()
         db_tweet_validate=db()
         tweet = db_tweet_validate.execute("SELECT * FROM tweets WHERE tweet_id = ? LIMIT 1", (tweet_id,)).fetchone()
         if not tweet: raise Exception(400, "Cannot like non existing tweet")
@@ -184,9 +196,8 @@ def validate_tweet_id():
             db_tweet_validate.close()
 
 #############################################
-def validate_comment_id():
+def validate_comment_id(comment_id):
     try:
-        comment_id = request.forms.comment_id
         db_comment_validate=db()
         comment = db_comment_validate.execute("SELECT * FROM comments WHERE comment_id = ? LIMIT 1", (comment_id,)).fetchone()
         if not comment: raise Exception(400, "Cannot like non existing comment")
@@ -200,3 +211,44 @@ def validate_comment_id():
 
 
 #############################################
+
+def validate_user_id(user_id):
+    try:
+        db_user_validate=db()
+        user = db_user_validate.execute("SELECT * FROM users WHERE user_id = ? LIMIT 1", (user_id,)).fetchone()
+        if not user: raise Exception(400, "User does not exist")
+        return user_id
+    except Exception as ex:
+        response.status = 400
+        return {"info": str(ex)}
+    finally:
+        if "db_user_validate" in locals():
+            db_user_validate.close()
+
+#############################################
+
+def validate_follow_exist(follower_id, followee_id):
+    try:
+        db_follow_validate=db()
+        follow = db_follow_validate.execute("SELECT * FROM followers WHERE follower_fk = ? AND followee_fk = ? LIMIT 1", (follower_id, followee_id ,)).fetchone()
+        if follow: raise Exception(400, "Follow already exist")
+        return False
+    except Exception as ex:
+        return True
+    finally:
+        if "db_follow_validate" in locals():
+            db_follow_validate.close()
+
+#############################################
+
+def validate_like_exist(user_id, tweet_id, comment_id):
+    try:
+        db_like_validate=db()
+        like = db_like_validate.execute("SELECT * FROM likes WHERE like_user_fk = ? AND like_tweet_fk = ? AND like_comment_fk = ? LIMIT 1", (user_id, tweet_id, comment_id ,)).fetchone()
+        if like: raise Exception(400, "Like already exist")
+        return False
+    except Exception as ex:
+        return True
+    finally:
+        if "db_like_validate" in locals():
+            db_like_validate.close()

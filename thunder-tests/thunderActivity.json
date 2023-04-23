@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "_id": "2de38110-0ab5-44b2-8829-64069d724162",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://127.0.0.1:3001/logout",
+    "url": "http://127.0.0.1:3001/logout",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-04-22T12:02:17.160Z",
+    "modified": "2023-04-22T12:02:17.160Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]

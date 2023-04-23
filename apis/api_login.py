@@ -1,13 +1,15 @@
 from bottle import post, request, response
 import x
 import bcrypt
+import time
+from time import strftime, localtime
 ##############################
 @post("/api-login")
 def _():
     try:
         # if user is logged, go to the profile page of that user
-        user = request.get_cookie("user", secret=x.COOKIE_SECRET)
-        if user: return {"info":"success login", "user_name":user["user_name"]}
+        logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
+        if logged_in_user: return {"info":"success login", "user_name":logged_in_user["user_name"]}
         # Validate
         user_email = x.validate_user_email()
         user_password = x.validate_user_password()
@@ -15,8 +17,11 @@ def _():
         # Connect to database
         db = x.db()
         user = db.execute("SELECT * FROM users WHERE user_email = ? LIMIT 1", (user_email,)).fetchone()
-        if not user: raise Exception(400, "Cannot login")
+        if not user: raise Exception(400, "Invalid credentials. Try again")
         if bcrypt.checkpw(user_password_encoded, user["user_password"]):
+            if user["user_blocked_until"] > int(time.time()):
+                date = strftime('%Y-%m-%d %H:%M:%S', localtime(user["user_blocked_until"]))
+                raise Exception(400, "user blocked until: "+date)
             try:
                 import production
                 is_cookie_https = True
@@ -25,8 +30,7 @@ def _():
             response.set_cookie("user", user, secret=x.COOKIE_SECRET, httponly=True, secure=is_cookie_https)
             return {"info":"success login", "user_name":user["user_name"]}
         else:
-            response.status = 400
-            return {"info":"cannot login"}
+            raise Exception(400, "Invalid credentials. Try again")
     except Exception as e:
         print(e)
         try: # Controlled exception, usually comming from the x file

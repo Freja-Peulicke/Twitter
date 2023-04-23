@@ -63,10 +63,16 @@ def render_index():
 
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
 
+        if logged_in_user:
+            suggested_followers = get_suggested_followers()
+        else:
+            suggested_followers = []
+
         db = x.db()
-        suggested_followers = get_suggested_followers()
+        
         tweets = db.execute(
-            "SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY RANDOM() LIMIT 5").fetchall()
+            "SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY RANDOM() LIMIT 5").fetchall()    
+        
         return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user)
     except Exception as ex:
         print(ex)
@@ -82,12 +88,18 @@ def _(username):
         x.disable_cache()
  
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
-        suggested_followers = get_suggested_followers()
+        if logged_in_user:
+            suggested_followers = get_suggested_followers()
+        else:
+            suggested_followers = []
         db = x.db()
         user = db.execute(
             "SELECT * FROM users WHERE user_name=? COLLATE NOCASE", (username,)).fetchall()[0]
         tweets = db.execute(
-            "SELECT * FROM tweets WHERE tweet_user_fk=? ORDER BY tweet_created_at DESC", (user["user_id"],)).fetchall()
+            "SELECT tweets.*, CASE WHEN likes.like_user_fk = ? THEN 1 ELSE 0 END AS user_liked FROM tweets LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk WHERE tweets.tweet_user_fk = ? AND tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = ?) OR likes.like_user_fk IS NULL AND tweets.tweet_user_fk = ? ORDER BY tweets.tweet_created_at DESC",(logged_in_user["user_id"], user["user_id"], logged_in_user["user_id"], user["user_id"],)
+        ).fetchall()
+         #   "SELECT * FROM tweets WHERE tweet_user_fk=? ORDER BY tweet_created_at DESC", (user["user_id"],)).fetchall()
+        
         title = user["user_first_name"] + " " + user["user_last_name"] + \
             " (@" + user["user_name"] + ") / Twitter"
         followed = False
@@ -153,14 +165,36 @@ def _():
     return
 ##################################################
 
+@get("/gold")
+def render_index():
+    try:
+        x.disable_cache()
+
+        logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
+
+        if logged_in_user:
+            suggested_followers = get_suggested_followers()
+        else:
+            suggested_followers = []
+
+        db = x.db()
+       
+        return template("gold", title="Gold / Twitter", suggested_followers=suggested_followers, logged_in_user=logged_in_user)
+    except Exception as ex:
+        print(ex)
+        return "error"
+    finally:
+        if "db" in locals():
+            db.close()
+
 
 # Henter 3 rækker fra vores users table i databasen, som vi bruger til suggested followers
 def get_suggested_followers():
     try:
-        #logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
+        logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
         db = x.db()
         followers = db.execute(
-            "SELECT * FROM users ORDER BY RANDOM() LIMIT 3").fetchall()
+            "SELECT * FROM users WHERE user_id != ? ORDER BY RANDOM() LIMIT 3", (logged_in_user["user_id"],)).fetchall()
         return followers
     except Exception as ex:
         print(ex)
@@ -206,9 +240,12 @@ import apis.api_tweet
 import apis.api_sign_up
 import apis.api_login
 import apis.api_like
+import apis.api_unlike
 import apis.api_search
 import apis.api_follow
 import apis.api_unfollow
+import apis.api_gold
+import apis.api_gold_verify
 
 ##############################
 # Run in AWS

@@ -22,13 +22,13 @@
     <form  class="flex flex-col w-2/3 gap-6 mt-8 lg:max-w-md"
     autocomplete="off">
       <div class="flex flex-col">
-        <label for="">email</label>
-        <input name="user_email" class="h-10 px-2 text-black bg-white rounded-sm outline-none" type="text"
+        <label for="">Email</label>
+        <input placeholder="Email" name="user_email" class="h-10 px-2 text-black bg-white rounded-sm outline-none" type="text"
         data-validate="email">
       </div>
       <div class="flex flex-col">
-        <label for="" class="-mt-2">password ({{x.USER_PASSWORD_MIN}} to {{x.USER_PASSWORD_MAX}} characters)</label>
-        <input name="user_password" class="h-10 px-2 text-black bg-white rounded-sm outline-none" type="password"
+        <label for="" class="-mt-2">Password ({{x.USER_PASSWORD_MIN}} to {{x.USER_PASSWORD_MAX}} characters)</label>
+        <input placeholder="Password" name="user_password" class="h-10 px-2 text-black bg-white rounded-sm outline-none" type="password"
         data-validate="str" data-min="{{x.USER_PASSWORD_MIN}}" data-max="{{x.USER_PASSWORD_MAX}}">
       </div>  
       <button type="submit" onclick="validate(login); return false" data-default="Login" data-await="Please wait ..."

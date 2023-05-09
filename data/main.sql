@@ -255,8 +255,17 @@ DROP TRIGGER IF EXISTS increment_tweet_likes;
 CREATE TRIGGER increment_tweet_likes AFTER INSERT ON likes
 BEGIN
   UPDATE tweets 
-  SET tweet_likes =  tweet_likes + 1 
+  SET tweet_likes = tweet_likes + 1 
   WHERE tweet_id = NEW.like_tweet_fk;
+END;
+
+-- Decrease tweet_likes when a like is inserted/created
+DROP TRIGGER IF EXISTS decrement_tweet_likes;
+CREATE TRIGGER decrement_tweet_likes AFTER DELETE ON likes
+BEGIN
+  UPDATE tweets 
+  SET tweet_likes = tweet_likes - 1 
+  WHERE tweet_id = OLD.like_tweet_fk;
 END;
 
 -- Testing
@@ -267,3 +276,42 @@ END;
 
 
 UPDATE users SET user_gold_at = "0", user_gold_key = 0 WHERE user_id = "e7f1e96a19734919b21cc34362bb4d28"
+
+SELECT 
+user_id, 
+tweet_message, 
+tweet_image, 
+tweet_created_at, 
+tweet_replies, 
+tweet_retweets, 
+tweet_likes, 
+tweet_views, 
+user_name, 
+user_first_name, 
+user_last_name 
+FROM tweets 
+JOIN users ON tweet_user_fk = user_id 
+ORDER BY tweet_created_at DESC 
+LIMIT 15 
+
+ 
+SELECT 
+tweets.*, 
+CASE WHEN likes.like_user_fk = ? THEN 1 ELSE 0 END AS user_liked 
+FROM tweets 
+LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk 
+WHERE tweets.tweet_user_fk = ? AND tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = ?) OR likes.like_user_fk IS NULL AND tweets.tweet_user_fk = ? 
+ORDER BY tweets.tweet_created_at DESC
+
+SELECT 
+users.*,
+tweets.*,
+CASE WHEN likes.like_user_fk = "e7f1e96a19734919b21cc34362bb4d28" THEN 1 ELSE 0 END AS user_liked 
+FROM tweets
+JOIN users ON tweet_user_fk = user_id 
+LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk
+WHERE tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = "e7f1e96a19734919b21cc34362bb4d28") OR likes.like_user_fk IS NULL
+ORDER BY tweet_created_at DESC 
+LIMIT 15 
+
+

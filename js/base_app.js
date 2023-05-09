@@ -72,6 +72,10 @@ async function login(){
 
 async function tweet(){
     const frm = event.target // the form
+    const txt = frm.elements.message
+    console.log(frm)
+    const btn = frm.elements.submit
+    btn.disabled = true
     const conn = await fetch("/tweet", {
       method: "POST",
       body: new FormData(frm)
@@ -79,13 +83,16 @@ async function tweet(){
     // const data = await conn.text() // to get plain text
     const data = await conn.json() // to get plain text
     console.log(data)
-    const message = frm.querySelector("input[name='message']").value
+    /* const message = txt.value
     console.log(message)
     document.querySelector("#tweets").insertAdjacentHTML("afterbegin", 
     `<div class="tweet">
         <div>${data.tweet_id}</div>
         <div>${message}</div>  
-      </div>`)
+      </div>`) */
+      txt.value = ""
+      btn.disabled = false
+      window.location.reload()
   }
 
   ///////////////////////////////////////////////

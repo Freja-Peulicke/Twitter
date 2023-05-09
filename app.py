@@ -63,15 +63,18 @@ def render_index():
 
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
 
+        db = x.db()
+
         if logged_in_user:
             suggested_followers = get_suggested_followers()
+            tweets = db.execute(
+            "SELECT users.*, tweets.*, CASE WHEN likes.like_user_fk = ? THEN 1 ELSE 0 END AS user_liked FROM tweets JOIN users ON tweet_user_fk = user_id LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk WHERE tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = ?) OR likes.like_user_fk IS NULL ORDER BY tweet_created_at DESC LIMIT 15", (logged_in_user["user_id"],logged_in_user["user_id"], )).fetchall()
+        
         else:
             suggested_followers = []
-
-        db = x.db()
+            tweets = db.execute("SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY tweet_created_at DESC LIMIT 15").fetchall()
         
-        tweets = db.execute(
-            "SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY RANDOM() LIMIT 5").fetchall()    
+        
         
         return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user)
     except Exception as ex:
@@ -156,13 +159,7 @@ def _(user_id):
 def _():
     return template("login")
 
-# Skal blive her fordi den ikke returnere et template/view
-@get("/logout")
-def _():
-    response.delete_cookie("user")
-    response.status = 303
-    response.set_header("Location", "/")
-    return
+
 ##################################################
 
 @get("/gold")
@@ -246,6 +243,11 @@ import apis.api_follow
 import apis.api_unfollow
 import apis.api_gold
 import apis.api_gold_verify
+
+
+##############################
+#Bridges
+import bridge.logout 
 
 ##############################
 # Run in AWS

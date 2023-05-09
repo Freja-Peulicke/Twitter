@@ -157,7 +157,7 @@
                     <div><img class="rounded-full w-9" src="images/profile.jpg" alt=""></div>
                     <div class="hidden xl:block">
                         <p class="text-sm font-bold">{{logged_in_user["user_first_name"]}} {{logged_in_user["user_last_name"]}}</p>
-                        <p class="text-sm text-gray-500">@{{logged_in_user["user_name"]}}</p>
+                        <a href="/{{logged_in_user['user_name']}}" class="text-sm text-gray-500">@{{logged_in_user["user_name"]}}</a>
                     </div>
 
                     <div class="absolute hidden xl:block right-2 dark:text-gray-400"><svg viewBox="0 0 24 24"

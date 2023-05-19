@@ -72,7 +72,7 @@ def render_index():
         
         else:
             suggested_followers = []
-            tweets = db.execute("SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY tweet_created_at DESC LIMIT 15").fetchall()
+            tweets = db.execute("SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name, user_verified_at FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY tweet_created_at DESC LIMIT 15").fetchall()
         
         
         
@@ -212,15 +212,15 @@ def _():
 def _(filename):
     return static_file(filename, root="./" + web_folder + "js/")
 
-@get("/avatars/<filename:re:.*\.jpg>")
+@get("/avatars/<filename:re:.*\.(jpg|jpeg|png)>")
 def _(filename):
     return static_file(filename, root="./" + web_folder + "images/avatars/")
 
-@get("/banners/<filename:re:.*\.jpg>")
+@get("/banners/<filename:re:.*\.(jpg|jpeg|png)>")
 def _(filename):
     return static_file(filename, root="./" + web_folder + "images/banners")
 
-@get("/tweets/<filename:re:.*\.jpg>")
+@get("/tweets/<filename:re:.*\.(jpg|jpeg|png)>")
 def _(filename):
     return static_file(filename, root="./" + web_folder + "images/tweets")
 

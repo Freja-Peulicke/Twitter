@@ -1,4 +1,4 @@
-#!/Users/freja/Documents/webdev/twitter/bin/python3.11
+#!/Users/freja/Documents/Webdev/twitter/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys

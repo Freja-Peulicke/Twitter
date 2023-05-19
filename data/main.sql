@@ -268,6 +268,21 @@ BEGIN
   WHERE tweet_id = OLD.like_tweet_fk;
 END;
 
+-- Blue checkmark verification 
+
+DROP TRIGGER IF EXISTS blue_checkmark;
+CREATE TRIGGER blue_checkmark AFTER INSERT ON followers
+BEGIN
+  UPDATE users 
+  SET user_verified_at = strftime('%s','now')
+  WHERE user_id = NEW.followee_fk
+  AND (
+    SELECT COUNT(*) 
+    FROM followers 
+    WHERE followee_fk = NEW.followee_fk
+  ) >= 10;
+END;
+
 -- Testing
 
 -- For testing blocking of users, to be used in admin part of the page:

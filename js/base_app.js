@@ -257,3 +257,36 @@ async function verify_gold_code(){
     gold_memmber.classList.remove("hidden")
     gold_memmber.classList.add("flex")
 }
+
+//////////////////////////////////////////////////////
+function preview_tweet_img() {
+    const tweet_image_preview = document.querySelector("#tweet-img")
+    const tweet_image_input = document.querySelector("#img-upload")
+    const tweet_image_container = document.querySelector("#tweet-img-container")
+    const tweet_message = document.querySelector('[name="message"]')
+
+    const tweet_image = tweet_image_input.files
+        
+    if (tweet_image.length) {
+        tweet_image_preview.src = URL.createObjectURL(tweet_image[0])
+        tweet_image_container.classList.remove("hidden")
+        tweet_message.dataset.min = 0;
+    } else {
+        tweet_image_container.classList.add("hidden") 
+        tweet_message.dataset.min = tweet_message.dataset.minDefault;
+    }
+}
+
+function clear_tweet_img(){
+    const tweet_image_preview = document.querySelector("#tweet-img")
+    const tweet_image_input = document.querySelector("#img-upload")
+    const tweet_image_container = document.querySelector("#tweet-img-container")
+    const tweet_message = document.querySelector('[name="message"]')
+
+    tweet_image_container.classList.add("hidden") 
+    tweet_image_preview.src = ""
+    tweet_image_input.value = ""
+    tweet_message.dataset.min = tweet_message.dataset.minDefault;
+}
+
+//////////////////////////////////////////////////////

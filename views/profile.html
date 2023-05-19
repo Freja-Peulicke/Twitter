@@ -13,7 +13,9 @@
                         </svg>
                     </a>
                     <div class="flex flex-col ">
-                        <h1 class="flex pl-12 text-xl font-bold"> {{user["user_first_name"] + " " + user["user_last_name"]}} <svg
+                        <h1 class="flex pl-12 text-xl font-bold"> {{user["user_first_name"] + " " + user["user_last_name"]}} 
+                            % if user["user_verified_at"] > 0:
+                            <svg
                                 viewBox="0 0 24 24" aria-label="Verified account" role="img" class="w-5 fill-twitter">
                                 <g>
                                     <path
@@ -21,6 +23,7 @@
                                     </path>
                                 </g>
                             </svg>
+                            % end
                         </h1>
                         <p class="pl-12 text-sm text-gray-500">{{user["user_total_tweets"]}} Tweets</p>
                     </div>
@@ -43,7 +46,9 @@
                     % end
                 </div>
                 <div class="flex flex-col">
-                    <h1 class="flex text-lg font-bold">{{user["user_first_name"] + " " + user["user_last_name"]}} <svg viewBox="0 0 24 24"
+                    <h1 class="flex text-lg font-bold">{{user["user_first_name"] + " " + user["user_last_name"]}} 
+                        % if user["user_verified_at"] > 0: 
+                        <svg viewBox="0 0 24 24"
                             aria-label="Verified account" role="img" class="w-5 fill-twitter">
                             <g>
                                 <path
@@ -51,6 +56,7 @@
                                 </path>
                             </g>
                         </svg>
+                        % end
                     </h1>
                     <p>@{{user["user_name"]}}</p>
                     <div class="flex">
@@ -86,6 +92,7 @@
                         <div class="relative pt-2 grow">
                             <div class="flex text-sm"><span class="flex font-bold">
                                     {{user["user_first_name"] + " " + user["user_last_name"]}}
+                                    % if user["user_verified_at"] > 0:
                                     <svg viewBox="0 0 24 24" aria-label="Verified account" role="img" class="w-4 ml-1 fill-twitter">
                                         <g>
                                             <path
@@ -93,6 +100,7 @@
                                             </path>
                                         </g>
                                     </svg>
+                                    % end
                                 </span><span class="ml-1 text-gray-600 dark:text-gray-400"><span>@{{user["user_name"]}}</span> ·
                                     <span>
                                         25m</span></span>
@@ -100,7 +108,7 @@
                             <div>
                                 <p class="text-sm text-gray-900 dark:text-gray-200">{{tweet["tweet_message"]}}</p>
                                 % if tweet.get('tweet_image'):
-                                <img src="/tweets/{{tweet['tweet_image']}}.jpg" class="object-contain w-full mt-4 rounded-lg max-h-96">
+                                <img src="/tweets/{{tweet['tweet_image']}}" class="object-contain w-full mt-4 rounded-lg max-h-96">
                                 % end
                             </div>
                             <div

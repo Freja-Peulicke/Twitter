@@ -16,32 +16,17 @@ def _():
 
         the_image = request.files.get("img-upload")
         if the_image is not None:
-            print("### 1")
             image_content = the_image.file.read()
-            print("### 2")
             the_image.file.seek(0)
-            print("### 3")
             mime_type = magic.from_buffer(image_content,mime=True)
-            print("### 4")
             if mime_type not in ("image/png", "image/jpg", "image/jpeg"):
-                print("### 4a")
                 raise Exception("Please, try again. Image not allowed.")
-            # name, ext = os.path.splitext(the_image.filename)
-            print("### 5")
             ext = pathlib.Path(the_image.filename).suffix
-            print("### 6")
             if ext not in ( ".png", ".jpg", ".jpeg"):
-                print("### 6a")
                 raise Exception("Please, try again. Image not allowed.")
-            print("### 7")
             image_name = str(uuid.uuid4().hex)
-            print("### 8")
             image_name = image_name + ext
-            print("### 9")
-            print(f"{x.base_dir}images/tweets/{image_name}")
             the_image.save(f"{x.base_dir}images/tweets/{image_name}")
-            #the_image.save(f"images/tweets/{image_name}")
-            print("### 10")
         else:
             image_name = ""
         
@@ -56,7 +41,6 @@ def _():
         db.commit()
         return {"info": "ok", "tweet_id": tweet_id}
     except Exception as ex:  # SOMETHING IS WRONG
-        print("### Error")
         response.status = 400
         return {"info": str(ex)}
     finally:  # This will always take place

@@ -10,6 +10,16 @@ COOKIE_SECRET = "41ebeca46feb-4d77-a8e2-554659074C6319a2fbfb-9a2D-4fb6-Afcad32ab
 
 #############################
 
+### for at undgå at uploade de statiske filer, er ikke noget santiago har. 
+try:
+    import production
+    base_dir = "home/fpj/twitter/"
+# Run in local computer
+except Exception as ex:
+    base_dir = ""
+
+#############################
+
 # funktion der gør at vi kan bruge keys fra databasen når vi skal kigge i data'en
 # Så vi kan bruge user["user_id"], user["user_name"], user["user_email"] etc. i stedet for user[0], user[1], user[2] etc,
 def dict_factory(cursor, row):

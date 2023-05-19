@@ -2,7 +2,7 @@ from bottle import post, request, response
 import x
 import uuid
 import time
-import os
+import pathlib
 import magic
 
 
@@ -20,7 +20,8 @@ def _():
             mime_type = magic.from_buffer(image_content,mime=True)
             if mime_type not in ("image/png", "image/jpg", "image/jpeg"):
                 raise Exception("Please, try again. Image not allowed.")
-            name, ext = os.path.splitext(the_image.filename)
+            # name, ext = os.path.splitext(the_image.filename)
+            ext = pathlib.Path(the_image.filename).suffix
             if ext not in ( ".png", ".jpg", ".jpeg"):
                 raise Exception("Please, try again. Image not allowed.")
             image_name = str(uuid.uuid4().hex)

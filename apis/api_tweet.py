@@ -33,13 +33,11 @@ def _():
             if ext not in ( ".png", ".jpg", ".jpeg"):
                 print("### 6a")
                 raise Exception("Please, try again. Image not allowed.")
-            
             print("### 7")
             image_name = str(uuid.uuid4().hex)
             print("### 8")
             image_name = image_name + ext
             print("### 9")
-            #print("############")
             #print(f"{x.base_dir}images/tweets/{image_name}")
             the_image.save(f"{x.base_dir}images/tweets/{image_name}")
             #the_image.save(f"images/tweets/{image_name}")

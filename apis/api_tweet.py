@@ -38,7 +38,7 @@ def _():
             print("### 8")
             image_name = image_name + ext
             print("### 9")
-            #print(f"{x.base_dir}images/tweets/{image_name}")
+            print(f"{x.base_dir}images/tweets/{image_name}")
             the_image.save(f"{x.base_dir}images/tweets/{image_name}")
             #the_image.save(f"images/tweets/{image_name}")
             print("### 10")

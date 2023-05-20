@@ -815,5 +815,45 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "64fc6354-92c6-4c30-9aea-d253984b5dd7",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "a666660b-9fdb-4926-a347-0a4b15fede8f",
+    "name": "edit profile",
+    "url": "http://127.0.0.1:3001/edit-profile",
+    "method": "POST",
+    "sortNum": 190000,
+    "created": "2023-05-20T17:20:32.231Z",
+    "modified": "2023-05-20T17:24:53.041Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_first_name",
+          "value": "Freja"
+        },
+        {
+          "name": "user_last_name",
+          "value": "Peulicke"
+        },
+        {
+          "name": "user_name",
+          "value": "peulicke"
+        },
+        {
+          "name": "user_email",
+          "value": "freja.peulicke@gmail.com"
+        },
+        {
+          "name": "user_phone",
+          "value": "42760584"
+        }
+      ]
+    },
+    "tests": []
   }
 ]

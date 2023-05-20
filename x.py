@@ -121,8 +121,6 @@ USER_NAME_MAX = 15
 USER_NAME_REGEX = "^[a-zA-Z0-9_]*$"
 
 def validate_user_name():
-    print("*"*30)
-    print(request.forms.user_name)
     error = f"user_name {USER_NAME_MIN} to {USER_NAME_MAX} english letters or number from 0 to 9 and _"
     request.forms.user_name = request.forms.user_name.strip()
     if len(request.forms.user_name) < USER_NAME_MIN: raise Exception(400, error)
@@ -136,8 +134,6 @@ USER_PHONE_MAX = 8
 USER_PHONE_REGEX = "^[0-9]*$"
 
 def validate_user_phone():
-    print("*"*30)
-    print(request.forms.user_phone)
     error = f"user_phone {USER_PHONE_MIN} to {USER_PHONE_MAX} number from 0 to 9"
     request.forms.user_phone = request.forms.user_phone.strip()
     if len(request.forms.user_phone) < USER_PHONE_MIN: raise Exception(400, error)

@@ -9,8 +9,6 @@
                             <p class="text-xl font-bold">Home</p>
                         </div>
                         <div class="flex pt-2 pb-4 xs:hidden">
-                            <div class="pl-3 basis-1/2 shrink"><img class="rounded-full w-7" src="images/profile.jpg"
-                                    alt=""></div>
                             <div class="pt-1 shrink">
                                 <svg viewBox="0 0 24 24" aria-hidden="true" class="w-6 fill-twitter">
                                     <g>
@@ -36,7 +34,7 @@
                     </div>
                     <div class="hidden pb-4 pr-4 border-b border-gray-100 xs:flex dark:border-dim-border">
                         <div class="px-4 py-2">
-                            <img class="w-12 rounded-full" src="images/profile.jpg" alt="">
+                            <img class="w-12 rounded-full" src="/avatars/{{logged_in_user['user_avatar']}}" alt="">
                         </div>
                         <form class="grow" method="POST" onsubmit="validate(tweet); return false">
                             <textarea input name="message" type="text"
@@ -107,7 +105,7 @@
                         % for tweet in tweets:
                         <div class="flex px-4 border-b border-gray-100 cursor-pointer dark:border-dim-border hover:bg-gray-50 dark:hover:bg-opacity-5">
                             <div class="py-2 mr-4">
-                                <img class="w-12 rounded-full max-w-none" src="/avatars/{{tweet['user_id']}}.jpg"
+                                <img class="w-12 rounded-full max-w-none" src="/avatars/{{tweet['user_avatar']}}"
                                     alt="{{tweet['user_first_name'] + ' ' + tweet['user_last_name']}}">
                             </div>
                             <div class="relative pt-2 grow">

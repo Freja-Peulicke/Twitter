@@ -330,3 +330,18 @@ ORDER BY tweet_created_at DESC
 LIMIT 15 
 
 
+e7f1e96a19734919b21cc34362bb4d28	
+
+
+banner 
+bd17f1a11c2d462c8bd73ad28ed5b680
+
+avatar
+a1e871848d5b41c59ae4cafa7b907503	
+
+
+UPDATE users 
+SET user_banner = "bd17f1a11c2d462c8bd73ad28ed5b680", user_avatar = "a1e871848d5b41c59ae4cafa7b907503"
+WHERE user_id = "e7f1e96a19734919b21cc34362bb4d28"
+
+SELECT user_avatar FROM users WHERE user_id = "e7f1e96a19734919b21cc34362bb4d28"

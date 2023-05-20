@@ -290,3 +290,60 @@ function clear_tweet_img(){
 }
 
 //////////////////////////////////////////////////////
+
+function show_edit_profile(){
+    const edit_profile_modal = document.querySelector("#edit-profile-modal")
+    const body = document.querySelector("body")
+    edit_profile_modal.classList.remove("hidden")
+    edit_profile_modal.classList.add("flex")
+    body.classList.add("overflow-hidden")
+}
+
+function hide_edit_profile(){
+    const edit_profile_modal = document.querySelector("#edit-profile-modal")  
+    const body = document.querySelector("body") 
+    edit_profile_modal.classList.add("hidden")
+    edit_profile_modal.classList.remove("flex")
+    body.classList.remove("overflow-hidden")
+}
+
+async function edit_profile(){
+    const frm = event.target // the form
+    console.log(frm)
+    const btn = frm.elements.submit
+    btn.disabled = true
+    const conn = await fetch("/edit-profile", {
+      method: "POST",
+      body: new FormData(frm)
+    })
+    // const data = await conn.text() // to get plain text
+    const data = await conn.json() // to get json
+    console.log(data)
+    btn.disabled = false
+    window.location.reload()
+}
+
+
+function preview_banner_img() {
+    const banner_image_preview = document.querySelector("#banner-img")
+    const banner_image_input = document.querySelector("#banner-upload")
+
+    const banner_image = banner_image_input.files
+        
+    if (banner_image.length) {
+        banner_image_preview.src = URL.createObjectURL(banner_image[0])
+        
+    }
+}
+
+function preview_avatar_img() {
+    const avatar_image_preview = document.querySelector("#avatar-img")
+    const avatar_image_input = document.querySelector("#avatar-upload")
+
+    const avatar_image = avatar_image_input.files
+        
+    if (avatar_image.length) {
+        avatar_image_preview.src = URL.createObjectURL(avatar_image[0])
+        
+    }
+}

@@ -3,9 +3,7 @@ import x
 import uuid
 import time
 import pathlib
-from pathlib import Path
 import magic
-
 
 @post("/tweet")
 def _():

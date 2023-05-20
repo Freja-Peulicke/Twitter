@@ -66,12 +66,10 @@ def render_index():
         db = x.db()
         
         if logged_in_user:
-            return "Logged in"
             suggested_followers = get_suggested_followers()
             tweets = db.execute(
             "SELECT users.*, tweets.*, CASE WHEN likes.like_user_fk = ? THEN 1 ELSE 0 END AS user_liked FROM tweets JOIN users ON tweet_user_fk = user_id LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk WHERE tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = ?) OR likes.like_user_fk IS NULL ORDER BY tweet_created_at DESC LIMIT 15", (logged_in_user["user_id"],logged_in_user["user_id"], )).fetchall()
         else:
-            return "Not logged in"
             suggested_followers = []
             tweets = db.execute("SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name, user_verified_at FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY tweet_created_at DESC LIMIT 15").fetchall()
             

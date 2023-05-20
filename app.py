@@ -74,12 +74,9 @@ def render_index():
             tweets = db.execute("SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name, user_verified_at, user_avatar FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY tweet_created_at DESC LIMIT 15").fetchall()
             
         return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user)
-        #return "TEST"
     except Exception as ex:
-        import traceback
-        traceback.print_exc()
         print(ex)
-        return "error 1"
+        return "error"
     finally:
         if "db" in locals():
             db.close()
@@ -115,7 +112,7 @@ def _(username):
         # return "test"
     except Exception as ex:
         print(ex)
-        return "error 2"
+        return "error"
     finally:
         if "db" in locals():
             db.close()
@@ -179,7 +176,7 @@ def render_index():
         return template("gold", title="Gold / Twitter", suggested_followers=suggested_followers, logged_in_user=logged_in_user)
     except Exception as ex:
         print(ex)
-        return "error 3"
+        return "error"
     finally:
         if "db" in locals():
             db.close()
@@ -194,10 +191,8 @@ def get_suggested_followers():
             "SELECT * FROM users WHERE user_id != ? ORDER BY RANDOM() LIMIT 3", (logged_in_user["user_id"],)).fetchall()
         return followers
     except Exception as ex:
-        import traceback
-        traceback.print_exc()
         print(ex)
-        return "error 4"
+        return "error"
     finally:
         if "db" in locals():
             db.close()

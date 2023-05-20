@@ -73,8 +73,8 @@ def render_index():
             suggested_followers = []
             tweets = db.execute("SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name, user_verified_at FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY tweet_created_at DESC LIMIT 15").fetchall()
             
-        #return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user)
-        return "TEST"
+        return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user)
+        #return "TEST"
     except Exception as ex:
         import traceback
         traceback.print_exc()

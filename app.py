@@ -88,18 +88,20 @@ def _(username):
         x.disable_cache()
  
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
-        if logged_in_user:
-            suggested_followers = get_suggested_followers()
-        else:
-            suggested_followers = []
+
         db = x.db()
         user = db.execute(
             "SELECT * FROM users WHERE user_name=? COLLATE NOCASE", (username,)).fetchall()[0]
-        tweets = db.execute(
-            "SELECT tweets.*, CASE WHEN likes.like_user_fk = ? THEN 1 ELSE 0 END AS user_liked FROM tweets LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk WHERE tweets.tweet_user_fk = ? AND tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = ?) OR likes.like_user_fk IS NULL AND tweets.tweet_user_fk = ? ORDER BY tweets.tweet_created_at DESC",(logged_in_user["user_id"], user["user_id"], logged_in_user["user_id"], user["user_id"],)
-        ).fetchall()
-         #   "SELECT * FROM tweets WHERE tweet_user_fk=? ORDER BY tweet_created_at DESC", (user["user_id"],)).fetchall()
         
+        if logged_in_user:
+            suggested_followers = get_suggested_followers()
+            tweets = db.execute(
+                "SELECT tweets.*, CASE WHEN likes.like_user_fk = ? THEN 1 ELSE 0 END AS user_liked FROM tweets LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk WHERE tweets.tweet_user_fk = ? AND tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = ?) OR likes.like_user_fk IS NULL AND tweets.tweet_user_fk = ? ORDER BY tweets.tweet_created_at DESC",(logged_in_user["user_id"], user["user_id"], logged_in_user["user_id"], user["user_id"],)
+            ).fetchall()
+        else:
+            suggested_followers = []
+            tweets = db.execute("SELECT tweets.*, 0 AS user_liked FROM tweets WHERE tweet_user_fk = ?", (user["user_id"],)).fetchall()        
+
         title = user["user_first_name"] + " " + user["user_last_name"] + \
             " (@" + user["user_name"] + ") / Twitter"
         followed = False
@@ -109,7 +111,7 @@ def _(username):
             if follow_data:
                 followed = True
         return template("profile", user=user, suggested_followers=suggested_followers, tweets=tweets, title=title, logged_in_user=logged_in_user, followed=followed)
-        # return "test"
+        
     except Exception as ex:
         print(ex)
         return "error"

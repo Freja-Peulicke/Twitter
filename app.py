@@ -78,7 +78,7 @@ def render_index():
         import traceback
         traceback.print_exc()
         print(ex)
-        return "error"
+        return "error 1"
     finally:
         if "db" in locals():
             db.close()
@@ -114,7 +114,7 @@ def _(username):
         # return "test"
     except Exception as ex:
         print(ex)
-        return "error"
+        return "error 2"
     finally:
         if "db" in locals():
             db.close()
@@ -178,7 +178,7 @@ def render_index():
         return template("gold", title="Gold / Twitter", suggested_followers=suggested_followers, logged_in_user=logged_in_user)
     except Exception as ex:
         print(ex)
-        return "error"
+        return "error 3"
     finally:
         if "db" in locals():
             db.close()
@@ -196,7 +196,7 @@ def get_suggested_followers():
         import traceback
         traceback.print_exc()
         print(ex)
-        return "error"
+        return "error 4"
     finally:
         if "db" in locals():
             db.close()

@@ -4,7 +4,7 @@ import uuid
 import pathlib
 import magic
 
-"""@post("/edit-profile")
+@post("/edit-profile")
 def _():
     try:
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
@@ -69,4 +69,4 @@ def _():
         return {"info": str(ex)}
     finally: # This will always take place
         if "db" in locals():
-            db.close()"""
+            db.close()

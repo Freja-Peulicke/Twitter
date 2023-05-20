@@ -64,7 +64,7 @@ def render_index():
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
 
         db = x.db()
-
+        return "TTT"
         if logged_in_user:
             suggested_followers = get_suggested_followers()
             tweets = db.execute(

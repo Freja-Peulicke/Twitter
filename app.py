@@ -78,6 +78,8 @@ def render_index():
         
         return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user)
     except Exception as ex:
+        import traceback
+        traceback.print_exc()
         print(ex)
         return "error"
     finally:
@@ -194,6 +196,8 @@ def get_suggested_followers():
             "SELECT * FROM users WHERE user_id != ? ORDER BY RANDOM() LIMIT 3", (logged_in_user["user_id"],)).fetchall()
         return followers
     except Exception as ex:
+        import traceback
+        traceback.print_exc()
         print(ex)
         return "error"
     finally:

@@ -191,7 +191,7 @@ def render_index():
         if "db" in locals():
             db.close()
 
-
+################################################## 
 # Henter 3 rækker fra vores users table i databasen, som vi bruger til suggested followers
 def get_suggested_followers():
     try:
@@ -207,6 +207,8 @@ def get_suggested_followers():
         if "db" in locals():
             db.close()
 
+
+##################################################
 @get("/app.css")
 def _():
     return static_file("app.css", root="./" + web_folder)

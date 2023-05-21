@@ -22,6 +22,7 @@ def _():
         total_rows_updated = db.execute("UPDATE users SET user_password = ? WHERE user_id = ?", (user_password_hashed, user_id,)).rowcount
         if total_rows_updated != 1: raise Exception("Please, try again")
         db.commit()
+        print("password updated")
         return {
             "info" : "password updated"
         }

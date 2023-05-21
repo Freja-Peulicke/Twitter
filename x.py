@@ -50,12 +50,14 @@ try:
 except Exception as ex:
     domain = "http://127.0.0.1:3001"
 
+##############################
+
 def sign_up_email(receiver_email, user_id):
     try:
         sender_email = "freja.peulicke@gmail.com"
         password = "pliyoscaqcaahfjq"   
         message = MIMEMultipart("alternative")
-        message["Subject"] = "multipart test"
+        message["Subject"] = "Activate user - Twitter"
         message["From"] = sender_email
         message["To"] = receiver_email 
         # Create the plain-text and HTML version of your message
@@ -94,7 +96,51 @@ def sign_up_email(receiver_email, user_id):
     finally:
         pass
 
+##############################
 
+def forgot_password_email(receiver_email, user_id):
+    try:
+        sender_email = "freja.peulicke@gmail.com"
+        password = "pliyoscaqcaahfjq"   
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "Forgot password - Twitter"
+        message["From"] = sender_email
+        message["To"] = receiver_email 
+        # Create the plain-text and HTML version of your message
+        text = f"""\
+        Hi,
+        You wanted to reset your password, so here you go!
+        Click here to reset your password: {domain}/reset-password/{user_id}"""
+        html = f"""\
+        <html>
+        <body>
+            <p>Hi,<br>
+            You wanted to reset your password, so here you go!<br>
+            <a href="{domain}/reset-password/{user_id}">Click here to reset</a>
+            </p>
+        </body>
+        </html>
+        """   
+        # Turn these into plain/html MIMEText objects
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
+
+        # Add HTML/plain-text parts to MIMEMultipart message
+        # The email client will try to render the last part first
+        message.attach(part1)
+        message.attach(part2)
+
+        # Create secure connection with server and send email
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(
+                sender_email, receiver_email, message.as_string()
+            )   
+    except:
+        pass
+    finally:
+        pass
 
 
 ##############################

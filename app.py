@@ -158,6 +158,15 @@ def _():
     return template("login")
 
 
+@get("/forgot-password")
+def _():
+    return template("forgot-password")
+
+
+@get("/reset-password/<user_id>")
+def _(user_id):
+    return template("reset-password", user_id=user_id, web_folder=web_folder)
+
 ##################################################
 
 @get("/gold")
@@ -242,11 +251,13 @@ import apis.api_unfollow
 import apis.api_gold
 import apis.api_gold_verify
 import apis.api_edit_profile
+import apis.api_forgot_password 
+import apis.api_reset_password
 
 
 ##############################
 #Bridges
-import bridge.logout 
+import bridge.logout
 
 ##############################
 # Run in AWS

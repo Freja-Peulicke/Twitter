@@ -69,7 +69,76 @@ async function login(){
     location.href = `/${data.user_name}`
 }
 
+// ##############################
+async function forgot_password(){
+    const btn = event.target
+    btn.disabled = true
+    btn.innerText = btn.getAttribute("data-await")
+    const frm = event.target.form
+    // Kilde: https://stackoverflow.com/a/47604112 brugt for at jeg kunne få response json ud selv ved 400 bad request
+    const conn = await fetch("/api-forgot-password", {
+        method : "POST",
+        body : new FormData(frm)
+    }).then((response) => {
+        if(response.ok){
+            return response;
+        }else{
+            return response.json().then((data) => {
+                return data;
+            }).catch((err) => {
+                console.log(err);
+            })
+        } 
+    })
+    if( !conn.ok ){
+        console.log("error: " + conn.info)    
+        showTip(conn.info)
+        btn.disabled = false
+        btn.innerText = btn.getAttribute("data-default")
+        return
+    }
+    const data = await conn.json()
+    // Success
+    btn.innerText = "Email sent"
+    showTip("Email sent, Please check for further information")
+}
+// ##############################
 
+async function reset_password(){
+    const btn = event.target
+    btn.disabled = true
+    btn.innerText = btn.getAttribute("data-await")
+    const frm = event.target.form
+    // Kilde: https://stackoverflow.com/a/47604112 brugt for at jeg kunne få response json ud selv ved 400 bad request
+    const conn = await fetch("/api-reset-password", {
+        method : "POST",
+        body : new FormData(frm)
+    }).then((response) => {
+        if(response.ok){
+            return response;
+        }else{
+            return response.json().then((data) => {
+                return data;
+            }).catch((err) => {
+                console.log(err);
+            })
+        } 
+    })
+    if( !conn.ok ){
+        console.log("error: " + conn.info)    
+        showTip(conn.info)
+        btn.disabled = false
+        btn.innerText = btn.getAttribute("data-default")
+        return
+    }
+    const data = await conn.json()
+    // Success
+    location.href = "/login"
+
+}
+
+
+// ##############################
 async function tweet(){
     const frm = event.target // the form
     const txt = frm.elements.message

@@ -855,5 +855,61 @@
       ]
     },
     "tests": []
+  },
+  {
+    "_id": "4e0475f8-a524-40ff-9997-69b75b7f1f61",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "bb3c026a-6dd5-4397-be12-56c41ac350ae",
+    "name": "succes",
+    "url": "http://127.0.0.1:3001/api-forgot-password",
+    "method": "POST",
+    "sortNum": 210000,
+    "created": "2023-05-21T10:19:56.497Z",
+    "modified": "2023-05-21T10:21:31.234Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_email",
+          "value": "freja.peulicke@gmail.com"
+        }
+      ]
+    },
+    "tests": []
+  },
+  {
+    "_id": "c2e6b901-e06f-484a-b355-42f0c8a5a43e",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "93bd1807-85b1-4251-92c3-ef3a2cdb5b20",
+    "name": "succes",
+    "url": "http://127.0.0.1:3001/api-reset-password",
+    "method": "POST",
+    "sortNum": 220000,
+    "created": "2023-05-21T10:46:52.150Z",
+    "modified": "2023-05-21T10:50:45.857Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "user_password",
+          "value": "222222"
+        },
+        {
+          "name": "user_confirm_password",
+          "value": "222222"
+        },
+        {
+          "name": "user_id",
+          "value": "e7f1e96a19734919b21cc34362bb4d28"
+        }
+      ]
+    },
+    "tests": []
   }
 ]

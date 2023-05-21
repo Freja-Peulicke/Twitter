@@ -132,10 +132,8 @@ def _(tweet_id):
             comments = db.execute("SELECT comments.*, users.*, 0 AS user_liked FROM comments JOIN users ON comments.comment_user_fk = users.user_id WHERE comments.comment_tweet_fk = ? ORDER BY comments.comment_created_at DESC", (tweet_id,)).fetchall()        
         if logged_in_user:
             suggested_followers = get_suggested_followers()
-            
         else:
             suggested_followers = []
-        
         return template("tweet",logged_in_user=logged_in_user, suggested_followers=suggested_followers, tweet=tweet, comments=comments)
     except Exception as ex:
         print(ex)
@@ -143,7 +141,6 @@ def _(tweet_id):
     finally:
         if "db" in locals():
             db.close()
-
 
 ###############################################################
 @get("/signup")

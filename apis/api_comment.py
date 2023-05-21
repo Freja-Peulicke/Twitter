@@ -5,10 +5,11 @@ import time
 import pathlib
 import magic
 
-@post("/tweet")
+@post("/api-comment")
 def _():
     try:  # SUCCESS
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
+        if not logged_in_user: return {"info":"user not logged in"}
 
         x.validate_tweet()
 
@@ -29,15 +30,16 @@ def _():
             image_name = ""
         
         db = x.db()
-        tweet_id = str(uuid.uuid4().hex)
-        tweet_message = request.forms.get("message")
-        tweet_image = image_name
-        tweet_created_at = int(time.time())
-        tweet_user_fk = logged_in_user['user_id']
-        db.execute("INSERT INTO tweets (tweet_id, tweet_message, tweet_image, tweet_created_at, tweet_user_fk) VALUES(?, ?, ?, ?, ?)",
-                   (tweet_id, tweet_message, tweet_image, tweet_created_at, tweet_user_fk))
+        tweet_id = request.forms.get("tweet_id")
+        comment_id = str(uuid.uuid4().hex)
+        comment_message = request.forms.get("message")
+        comment_image = image_name
+        comment_created_at = int(time.time())
+        comment_user_fk = logged_in_user['user_id']
+        db.execute("INSERT INTO comments (comment_tweet_fk, comment_id, comment_message, comment_image, comment_created_at, comment_user_fk) VALUES(?, ?, ?, ?, ?, ?)",
+                   (tweet_id, comment_id, comment_message, comment_image, comment_created_at, comment_user_fk))
         db.commit()
-        return {"info": "ok", "tweet_id": tweet_id}
+        return {"info": "ok", "comment_id": comment_id}
     except Exception as ex:  # SOMETHING IS WRONG
         response.status = 400
         return {"info": str(ex)}

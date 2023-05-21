@@ -67,11 +67,10 @@ def render_index():
         
         if logged_in_user:
             suggested_followers = get_suggested_followers()
-            tweets = db.execute(
-            "SELECT users.*, tweets.*, CASE WHEN likes.like_user_fk = ? THEN 1 ELSE 0 END AS user_liked FROM tweets JOIN users ON tweet_user_fk = user_id LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk WHERE tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = ?) OR likes.like_user_fk IS NULL ORDER BY tweet_created_at DESC LIMIT 15", (logged_in_user["user_id"],logged_in_user["user_id"], )).fetchall()
+            tweets = db.execute("SELECT users.*, tweets.*, CASE WHEN likes.like_user_fk = ? THEN 1 ELSE 0 END AS user_liked FROM tweets JOIN users ON tweet_user_fk = user_id LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk WHERE tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = ?) OR likes.like_user_fk IS NULL ORDER BY tweet_created_at DESC LIMIT 15", (logged_in_user["user_id"],logged_in_user["user_id"], )).fetchall()
         else:
             suggested_followers = []
-            tweets = db.execute("SELECT user_id, tweet_message, tweet_image, tweet_created_at, tweet_replies, tweet_retweets, tweet_likes, tweet_views, user_name, user_first_name, user_last_name, user_verified_at, user_avatar FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY tweet_created_at DESC LIMIT 15").fetchall()
+            tweets = db.execute("SELECT users.*, tweets.* FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY tweet_created_at DESC LIMIT 15").fetchall()
             
         return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user)
     except Exception as ex:
@@ -118,6 +117,33 @@ def _(username):
     finally:
         if "db" in locals():
             db.close()
+###############################################################
+@get("/tweet/<tweet_id>")
+def _(tweet_id):
+    try:
+        logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
+        
+        db = x.db()
+        if logged_in_user:
+            tweet = db.execute("SELECT tweets.*, users.*, CASE WHEN likes.like_user_fk = ? AND likes.like_tweet_fk = ? THEN 1 ELSE 0 END AS user_liked FROM tweets LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk JOIN users ON tweets.tweet_user_fk = users.user_id WHERE tweets.tweet_id = ?", (logged_in_user["user_id"], tweet_id, tweet_id,)).fetchone()
+            comments = db.execute("SELECT comments.*, users.*, CASE WHEN likes.like_user_fk = ? AND likes.like_comment_fk = comments.comment_id THEN 1 ELSE 0 END AS user_liked FROM comments LEFT JOIN likes ON comments.comment_id = likes.like_comment_fk JOIN users ON comments.comment_user_fk = users.user_id WHERE comments.comment_tweet_fk = ? ORDER BY comments.comment_created_at DESC", (logged_in_user["user_id"], tweet_id,)).fetchall()
+        else:
+            tweet = db.execute("SELECT tweets.*, users.*, 0 AS user_liked FROM tweets JOIN users ON tweets.tweet_user_fk = users.user_id WHERE tweets.tweet_id = ?", (tweet_id,)).fetchone()
+            comments = db.execute("SELECT comments.*, users.*, 0 AS user_liked FROM comments JOIN users ON comments.comment_user_fk = users.user_id WHERE comments.comment_tweet_fk = ? ORDER BY comments.comment_created_at DESC", (tweet_id,)).fetchall()        
+        if logged_in_user:
+            suggested_followers = get_suggested_followers()
+            
+        else:
+            suggested_followers = []
+        
+        return template("tweet",logged_in_user=logged_in_user, suggested_followers=suggested_followers, tweet=tweet, comments=comments)
+    except Exception as ex:
+        print(ex)
+        return "error"
+    finally:
+        if "db" in locals():
+            db.close()
+
 
 ###############################################################
 @get("/signup")
@@ -255,6 +281,7 @@ import apis.api_gold_verify
 import apis.api_edit_profile
 import apis.api_forgot_password 
 import apis.api_reset_password
+import apis.api_comment
 
 
 ##############################

@@ -527,7 +527,7 @@
     "method": "POST",
     "sortNum": 80000,
     "created": "2023-03-19T20:28:37.058Z",
-    "modified": "2023-04-22T11:57:59.296Z",
+    "modified": "2023-05-21T13:50:29.897Z",
     "headers": [],
     "params": [],
     "body": {
@@ -540,7 +540,7 @@
         },
         {
           "name": "user_password",
-          "value": "123456"
+          "value": "333333"
         }
       ]
     },
@@ -907,6 +907,34 @@
         {
           "name": "user_id",
           "value": "e7f1e96a19734919b21cc34362bb4d28"
+        }
+      ]
+    },
+    "tests": []
+  },
+  {
+    "_id": "19ee08a1-2871-4468-80a4-d51212daf709",
+    "colId": "d2eb1ba6-a3f2-4647-90e3-d258d3551346",
+    "containerId": "8d6e698d-cc77-4b40-bcba-4008170049e5",
+    "name": "succes",
+    "url": "http://127.0.0.1:3001/api-comment",
+    "method": "POST",
+    "sortNum": 230000,
+    "created": "2023-05-21T13:41:20.248Z",
+    "modified": "2023-05-21T13:43:36.145Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "formdata",
+      "raw": "",
+      "form": [
+        {
+          "name": "message",
+          "value": "This is a comment"
+        },
+        {
+          "name": "tweet_id",
+          "value": "404db470cc5f4f25bd25f5e16cda4b26"
         }
       ]
     },

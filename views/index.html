@@ -135,7 +135,7 @@
                                     % end
                                 </div>
                                 <div class="flex justify-between w-full max-w-md py-3 text-gray-800 fill-gray-800 dark:text-gray-200 dark:fill-gray-200">
-                                    <div class="flex items-center justify-center cursor-pointer group">
+                                    <a href="/tweet/{{tweet['tweet_id']}}" class="flex items-center justify-center cursor-pointer group">
                                         <div
                                             class="flex items-center justify-center p-2 duration-200 rounded-full group-hover:bg-twitter group-hover:bg-opacity-10 group-hover:fill-twitter">
                                             <svg viewBox="0 0 24 24" aria-hidden="true" class="w-4.5">
@@ -148,7 +148,7 @@
                                         </div>
                                         <span
                                             class="text-xs duration-200 group-hover:text-twitter">{{tweet["tweet_replies"]}}</span>
-                                    </div>
+                                    </a>
                                     <div class="flex items-center justify-center cursor-pointer group">
                                         <div
                                             class="flex items-center justify-center p-2 duration-200 rounded-full group-hover:bg-green-600 group-hover:bg-opacity-10 group-hover:fill-green-600">

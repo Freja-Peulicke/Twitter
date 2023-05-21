@@ -196,16 +196,17 @@ INSERT INTO tweets VALUES (
 -- Comments
 DROP TABLE IF EXISTS comments;
 CREATE TABLE comments (
-  comment_id          TEXT NOT NULL UNIQUE,
-  user_id             TEXT NOT NULL,
-  tweet_id            TEXT,
-  comments_id         TEXT,
-  comment             TEXT NOT NULL,
-  created_at          INT NOT NULL,
-  total_comments      INT DEFAULT 0, 
-  total_retweets      INT DEFAULT 0, 
-  total_likes         INT DEFAULT 0, 
-  total_views         INT DEFAULT 0,
+  comment_id              TEXT NOT NULL UNIQUE,
+  comment_user_fk         TEXT NOT NULL,
+  comment_tweet_fk        TEXT,
+  comment_comment_fk      TEXT,
+  comment_message         TEXT NOT NULL,
+  comment_image           TEXT DEFAULT "",
+  comment_created_at      INT NOT NULL,
+  comment_replies         INT DEFAULT 0, 
+  comment_retweets        INT DEFAULT 0, 
+  comment_likes           INT DEFAULT 0, 
+  comment_views           INT DEFAULT 0,
   PRIMARY KEY(comment_id)
 ) WITHOUT ROWID;
 

@@ -152,16 +152,28 @@ async function tweet(){
     // const data = await conn.text() // to get plain text
     const data = await conn.json() // to get plain text
     console.log(data)
-    /* const message = txt.value
-    console.log(message)
-    document.querySelector("#tweets").insertAdjacentHTML("afterbegin", 
-    `<div class="tweet">
-        <div>${data.tweet_id}</div>
-        <div>${message}</div>  
-      </div>`) */
-      txt.value = ""
-      btn.disabled = false
-      window.location.reload()
+    txt.value = ""
+    btn.disabled = false
+    window.location.reload()
+  }
+
+  // ##############################
+async function comment(){
+    const frm = event.target // the form
+    const txt = frm.elements.message
+    console.log(frm)
+    const btn = frm.elements.submit
+    btn.disabled = true
+    const conn = await fetch("/api-comment", {
+      method: "POST",
+      body: new FormData(frm)
+    })
+    // const data = await conn.text() // to get plain text
+    const data = await conn.json() // to get plain text
+    console.log(data)
+    txt.value = ""
+    btn.disabled = false
+    window.location.reload()
   }
 
   ///////////////////////////////////////////////
@@ -251,6 +263,43 @@ async function like_unlike_tweet(){
         method: "POST",
         headers: {"Content-Type":"application/json"},
         body: '{"type": "tweet", "tweet_id": "'+tweet_id+'"}'
+    })
+
+    const data = await conn.json()
+    if( !conn.ok ){
+        console.log(data)
+        showTip(data.info)        
+        return
+    }
+
+    if(api == "/api-like"){
+		dom_tweet_likes.innerText = parseInt(dom_tweet_likes.innerText) + 1
+        svg.classList.remove("show-unliked")
+        svg.classList.add("show-liked")
+        btn.dataset.liked = "1"
+	}else{
+		dom_tweet_likes.innerText = parseInt(dom_tweet_likes.innerText) - 1 
+        svg.classList.remove("show-liked")
+        svg.classList.add("show-unliked")
+        btn.dataset.liked = "0"
+	}
+    console.log("ok like")
+}
+
+
+//////////////////////////////////////////////////////
+
+async function like_unlike_comment(){
+    const btn = event.currentTarget
+    const comment_id = btn.dataset.comment
+    const api = btn.dataset.liked === "0" ? "/api-like" : "/api-unlike"
+    const dom_tweet_likes = btn.lastElementChild
+    const svg = btn.firstElementChild.firstElementChild
+
+    const conn = await fetch(api,{
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: '{"type": "comment", "comment_id": "'+comment_id+'"}'
     })
 
     const data = await conn.json()

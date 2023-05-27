@@ -6,7 +6,7 @@ import x
 @post("/search")
 def _():
     try:
-        response.set_header("Content-type", "application/json");
+        response.set_header("Content-type", "application/json")
 
         data = request.json
         query = data["query"]

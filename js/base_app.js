@@ -465,3 +465,24 @@ function preview_avatar_img() {
         
     }
 }
+
+//////////////////////////////////////////////////////
+
+async function delete_user(){
+    const btn = event.currentTarget
+    btn.disabled = true
+    const conn = await fetch("/api-archive-user",{
+        method: "POST"
+    })
+
+    const data = await conn.json()
+    if( !conn.ok ){
+        console.log(data)
+        showTip(data.info)        
+        return
+    }
+
+    // Success
+    btn.innerText = "Email sent"
+    showTip("Email sent, Please check for further information")
+}

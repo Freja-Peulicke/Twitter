@@ -37,7 +37,8 @@ def _():
             "user_total_tweets" : 0,
             "user_total_followers" : 0,
             "user_total_following" : 0,
-            "user_blocked_until" : 0
+            "user_blocked_until" : 0,
+            "user_acrhived_at" : 0
         }
         # create placed holders for values
         values = ""
@@ -48,12 +49,6 @@ def _():
 
         db = x.db()
         total_rows_inserted = db.execute(f"INSERT INTO users VALUES({values})", user).rowcount        
-        # total_rows_inserted = db.execute("""
-        #     INSERT INTO users VALUES(:user_id, :user_email, :user_name, 
-        #     :user_created_at, :user_verification_key, :user_password, :user_first_name, 
-        #     :user_last_name, :user_verified_at, :user_banner, :user_avatar, 
-        #     :user_total_tweets, :user_total_retweets, :user_total_comments, :user_total_likes, :user_total_dislikes,
-        #     :user_total_followers, :user_total_following,)""", user).rowcount
         if total_rows_inserted != 1: raise Exception("Please, try again")
         db.commit()
         x.sign_up_email(user_email, user_id)

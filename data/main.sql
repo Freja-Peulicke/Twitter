@@ -20,12 +20,13 @@ CREATE TABLE users(
   user_total_followers        INT  DEFAULT 0,
   user_total_following        INT  DEFAULT 0,
   user_blocked_until          INT  DEFAULT 0,
+  user_archived_at            INT  DEFAULT 0,
   PRIMARY KEY(user_id)
 ) WITHOUT rowid;
 
-INSERT INTO users VALUES("ccec0766e15a476f939058b13563b8b2","elonmusk@gmail.com","11111111", "elonmusk","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Elon", "Musk",0, 1298900000,0,0, "ccec0766e15a476f939058b13563b8b2", "ccec0766e15a476f939058b13563b8b2",177, 0, 0, 0);
-INSERT INTO users VALUES("bd17f1a11c2d462c8bd73ad28ed5b680","shakira@gmail.com","22222222", "shakira","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Shakira", "",0, 1298900340,0,0, "bd17f1a11c2d462c8bd73ad28ed5b680", "bd17f1a11c2d462c8bd73ad28ed5b680",200, 0, 0, 0);
-INSERT INTO users VALUES("a1e871848d5b41c59ae4cafa7b907503","michelleobama@gmail.com","33333333", "michelleobama","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Michelle", "Obama",0, 1298900340,0,0, "a1e871848d5b41c59ae4cafa7b907503", "a1e871848d5b41c59ae4cafa7b907503",2050, 0, 0, 0);
+INSERT INTO users VALUES("ccec0766e15a476f939058b13563b8b2","elonmusk@gmail.com","11111111", "elonmusk","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Elon", "Musk",0, 1298900000,0,0, "ccec0766e15a476f939058b13563b8b2.jpg", "ccec0766e15a476f939058b13563b8b2.jpg",177, 0, 0, 0,0);
+INSERT INTO users VALUES("bd17f1a11c2d462c8bd73ad28ed5b680","shakira@gmail.com","22222222", "shakira","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Shakira", "",0, 1298900340,0,0, "bd17f1a11c2d462c8bd73ad28ed5b680.jpg", "bd17f1a11c2d462c8bd73ad28ed5b680.jpg",200, 0, 0, 0,0);
+INSERT INTO users VALUES("a1e871848d5b41c59ae4cafa7b907503","michelleobama@gmail.com","33333333", "michelleobama","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Michelle", "Obama",0, 1298900340,0,0, "a1e871848d5b41c59ae4cafa7b907503.jpg", "a1e871848d5b41c59ae4cafa7b907503.jpg",2050, 0, 0, 0,0);
 
 CREATE UNIQUE INDEX idx_users_username ON users(user_name);
 
@@ -84,8 +85,8 @@ BEGIN
 END;
 
 
-INSERT INTO tweets VALUES ("fdf9bd43492641d7a0df94c543379a2e","","ec07a720fa2441b6a9e69b1636183a31","1677099006","ccec0766e15a476f939058b13563b8b2", 27200, 493000, 5659000, 857000000);
-INSERT INTO tweets VALUES ("5160b233a2e3478d9abfe6a977a79fb7","High time I confessed I let the Doge out","99b43aa0abe04561a90debed1c436a94",1677081006,"ccec0766e15a476f939058b13563b8b2",14700, 20400, 235000, 474000000);
+INSERT INTO tweets VALUES ("fdf9bd43492641d7a0df94c543379a2e","","ec07a720fa2441b6a9e69b1636183a31.jpg","1677099006","ccec0766e15a476f939058b13563b8b2", 27200, 493000, 5659000, 857000000);
+INSERT INTO tweets VALUES ("5160b233a2e3478d9abfe6a977a79fb7","High time I confessed I let the Doge out","99b43aa0abe04561a90debed1c436a94.jpg",1677081006,"ccec0766e15a476f939058b13563b8b2",14700, 20400, 235000, 474000000);
 INSERT INTO tweets VALUES ("bf2dc070e60341f59b03ffdb41611f51","Fact check me @CommunityNotes","",1677042856,"ccec0766e15a476f939058b13563b8b2", 1652, 1370, 17300, 5200000);
 INSERT INTO tweets VALUES ("d590dd6c61964a5aa1eaa7bce00be7c8","Many go woke for the moral cloak","",1677039263,"ccec0766e15a476f939058b13563b8b2", 8714,16200, 1636000, 399000000);
 INSERT INTO tweets VALUES ("f6659fcfe3284275aa29ca9cfa6de47f","Turning judgment from metoo you","",1677035663,"ccec0766e15a476f939058b13563b8b2",  1492 , 1857 , 26100 , 41000000 );
@@ -94,7 +95,7 @@ INSERT INTO tweets VALUES ("a98523bbed714d4ea7444347340c1c8a","Nice work by Comm
 INSERT INTO tweets VALUES (
 "99b43aa0abe04561a90debed1c436a94",
 "Limmie – I’m so glad you're performing again at the Opera. Your story and your incredible voice will inspire so many people around the world. #BlackHistoryMonth",
-"a15e880f0e544a569eb0e154bdcb2a2e",
+"a15e880f0e544a569eb0e154bdcb2a2e.jpg",
 1676667006,
 "a1e871848d5b41c59ae4cafa7b907503",
 182,
@@ -106,7 +107,7 @@ INSERT INTO tweets VALUES (
 INSERT INTO tweets VALUES (
 "7686c830f91949e3bc3fdcbcd19f610e",
 "I couldn’t be more grateful for the work that our nation’s school counselors do every day for our students. Congratulations to Meredith Draughn, an elementary school counselor in North Carolina, who is the 2023 @ASCAtweets School Counselor of the Year! #ReachHigher",
-"e5f7d10d49b6420689fc4e73717581eb",
+"e5f7d10d49b6420689fc4e73717581eb.jpg",
 1676580606,
 "a1e871848d5b41c59ae4cafa7b907503",
 206,
@@ -117,7 +118,7 @@ INSERT INTO tweets VALUES (
 INSERT INTO tweets VALUES (
 "bfe8ebfb38744331a89836dad256e182",
 "Happy Valentine’s Day, @BarackObama! I couldn’t have asked for a better partner to navigate life with. Love you! 💘 Photo credit: Amos Jackson III",
-"060c3687f88c4a8ea5e855b4a0e210a3",
+"060c3687f88c4a8ea5e855b4a0e210a3.jpg",
 1676407806,
 "a1e871848d5b41c59ae4cafa7b907503",
 5256,
@@ -151,7 +152,7 @@ INSERT INTO tweets VALUES (
 INSERT INTO tweets VALUES (
 "6d044afa28844f198a86b782a0bd59fc",
 "Gracias a todos por la increíble recepción a tqg  💛💙❤️",
-"e27185460ff14db493a28540d1590d69",
+"e27185460ff14db493a28540d1590d69.jpg",
 1677266227,
 "bd17f1a11c2d462c8bd73ad28ed5b680",
 1433,
@@ -162,7 +163,7 @@ INSERT INTO tweets VALUES (
 INSERT INTO tweets VALUES (
 "74d1ebba9fec41019663e27a2ef8242a",
 "Muchísimas gracias a mi gente, a @premiolonuestro y a @Univision por estos tres reconocimientos y por el apoyo de siempre, gracias de corazón! #PremioLoNuestro",
-"6bce0880415241b9a226caaf9f8a63fe",
+"6bce0880415241b9a226caaf9f8a63fe.jpg",
 1677248427,
 "bd17f1a11c2d462c8bd73ad28ed5b680",
 348,
@@ -184,7 +185,7 @@ INSERT INTO tweets VALUES (
 INSERT INTO tweets VALUES (
 "4cc4c59fa56e4f409b4d29304a3facce",
 "Remembering good times and wishing you the best vibes for tonight’s show, Rih! 🥰 @rihanna #SBLVII #AppleMusicHalftime",
-"62a85b67216442bab4ba19b59f56af38",
+"62a85b67216442bab4ba19b59f56af38.jpg",
 1676384427,
 "bd17f1a11c2d462c8bd73ad28ed5b680",
 1509,
@@ -283,66 +284,3 @@ BEGIN
     WHERE followee_fk = NEW.followee_fk
   ) >= 10;
 END;
-
--- Testing
-
--- For testing blocking of users, to be used in admin part of the page:
--- UPDATE users SET user_blocked_until = 1682793290 WHERE user_id = "e7f1e96a19734919b21cc34362bb4d28"
-
-
-
-UPDATE users SET user_gold_at = "0", user_gold_key = 0 WHERE user_id = "e7f1e96a19734919b21cc34362bb4d28"
-
-SELECT 
-user_id, 
-tweet_message, 
-tweet_image, 
-tweet_created_at, 
-tweet_replies, 
-tweet_retweets, 
-tweet_likes, 
-tweet_views, 
-user_name, 
-user_first_name, 
-user_last_name 
-FROM tweets 
-JOIN users ON tweet_user_fk = user_id 
-ORDER BY tweet_created_at DESC 
-LIMIT 15 
-
- 
-SELECT 
-tweets.*, 
-CASE WHEN likes.like_user_fk = ? THEN 1 ELSE 0 END AS user_liked 
-FROM tweets 
-LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk 
-WHERE tweets.tweet_user_fk = ? AND tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = ?) OR likes.like_user_fk IS NULL AND tweets.tweet_user_fk = ? 
-ORDER BY tweets.tweet_created_at DESC
-
-SELECT 
-users.*,
-tweets.*,
-CASE WHEN likes.like_user_fk = "e7f1e96a19734919b21cc34362bb4d28" THEN 1 ELSE 0 END AS user_liked 
-FROM tweets
-JOIN users ON tweet_user_fk = user_id 
-LEFT JOIN likes ON tweets.tweet_id = likes.like_tweet_fk
-WHERE tweets.tweet_id IN (SELECT like_tweet_fk FROM likes WHERE like_user_fk = "e7f1e96a19734919b21cc34362bb4d28") OR likes.like_user_fk IS NULL
-ORDER BY tweet_created_at DESC 
-LIMIT 15 
-
-
-e7f1e96a19734919b21cc34362bb4d28	
-
-
-banner 
-bd17f1a11c2d462c8bd73ad28ed5b680
-
-avatar
-a1e871848d5b41c59ae4cafa7b907503	
-
-
-UPDATE users 
-SET user_banner = "bd17f1a11c2d462c8bd73ad28ed5b680", user_avatar = "a1e871848d5b41c59ae4cafa7b907503"
-WHERE user_id = "e7f1e96a19734919b21cc34362bb4d28"
-
-SELECT user_avatar FROM users WHERE user_id = "e7f1e96a19734919b21cc34362bb4d28"

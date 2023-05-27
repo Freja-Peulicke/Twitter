@@ -190,8 +190,11 @@ def _():
 def _(user_id):
     return template("reset-password", user_id=user_id, web_folder=web_folder)
 
+
+
 ##################################################
 
+##################################################
 @get("/gold")
 def render_index():
     try:
@@ -279,11 +282,12 @@ import apis.api_edit_profile
 import apis.api_forgot_password 
 import apis.api_reset_password
 import apis.api_comment
-
+import apis.api_archive
 
 ##############################
 #Bridges
 import bridge.logout
+import bridge.archive_user
 
 ##############################
 # Run in AWS

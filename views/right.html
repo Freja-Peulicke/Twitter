@@ -27,7 +27,7 @@
             <a href="/{{suggested_follower['user_name']}}" class="relative flex flex-row gap-2 px-4 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-dim-border dark:hover:bg-opacity-20">
                 <img class="w-12 rounded-full" src="/avatars/{{suggested_follower['user_avatar']}}" alt="">
                 <div class="text-sm">
-                    <p class="font-bold">{{suggested_follower["user_first_name"] + suggested_follower["user_last_name"]}}</p>
+                    <p class="font-bold">{{suggested_follower["user_first_name"] + " " + suggested_follower["user_last_name"]}}</p>
                     <p class="text-gray-500">@{{suggested_follower['user_name']}}</p>
                 </div>
                 <button

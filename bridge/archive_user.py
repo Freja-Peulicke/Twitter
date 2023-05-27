@@ -1,8 +1,6 @@
 from bottle import get, request, response
 import x
 
-
-
 @get("/delete-user/<user_id>")
 def _(user_id):
     try:

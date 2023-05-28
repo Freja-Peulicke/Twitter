@@ -486,3 +486,29 @@ async function delete_user(){
     btn.innerText = "Email sent"
     showTip("Email sent, Please check for further information")
 }
+
+
+///////////////////////////////////////////////////////
+
+async function retweet(){
+    const btn = event.currentTarget
+    const tweet_id = btn.dataset.tweet
+    btn.disabled = true
+    
+    const conn = await fetch("/retweet",{
+        method : "POST",
+        headers: {"Content-Type":"application/json"},
+        body: '{"tweet_id": "'+tweet_id+'"}'
+    })
+    
+	const data = await conn.json()
+    if( !conn.ok ){
+        console.log(data)
+        showTip(data.info)        
+        return
+    }
+    
+    btn.disabled = false
+    // Success
+    console.log("ok retweet")
+}

@@ -71,8 +71,20 @@ def render_index():
         else:
             suggested_followers = []
             tweets = db.execute("SELECT users.*, tweets.* FROM tweets JOIN users ON tweet_user_fk = user_id ORDER BY tweet_created_at DESC LIMIT 15").fetchall()
-            
-        return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user)
+
+        retweet_ids = []
+        for tweet in tweets:
+            tweet_retweet_fk = tweet["tweet_retweet_fk"]
+            if tweet_retweet_fk:
+                retweet_ids.append(str(tweet_retweet_fk))
+
+        placeholders = ', '.join('?' for _ in retweet_ids)
+
+        retweets = db.execute("SELECT users.*, tweets.* FROM tweets JOIN users ON tweet_user_fk = user_id WHERE tweet_id IN ({})".format(placeholders), retweet_ids).fetchall()
+
+        retweets = {retweet['tweet_id']: retweet for retweet in retweets}  # Assigning sorted retweets to the same variable
+
+        return template("index", title="Twitter", suggested_followers=suggested_followers, tweets=tweets, logged_in_user=logged_in_user, retweets=retweets)
     except Exception as ex:
         print(ex)
         return "error"
@@ -99,7 +111,19 @@ def _(username):
             ).fetchall()
         else:
             suggested_followers = []
-            tweets = db.execute("SELECT tweets.*, 0 AS user_liked FROM tweets WHERE tweet_user_fk = ?", (user["user_id"],)).fetchall()        
+            tweets = db.execute("SELECT *, 0 AS user_liked FROM tweets WHERE tweet_user_fk = ?", (user["user_id"],)).fetchall()        
+
+        retweet_ids = []
+        for tweet in tweets:
+            tweet_retweet_fk = tweet["tweet_retweet_fk"]
+            if tweet_retweet_fk:
+                retweet_ids.append(str(tweet_retweet_fk))
+
+        placeholders = ', '.join('?' for _ in retweet_ids)
+
+        retweets = db.execute("SELECT users.*, tweets.* FROM tweets JOIN users ON tweet_user_fk = user_id WHERE tweet_id IN ({})".format(placeholders), retweet_ids).fetchall()
+
+        retweets = {retweet['tweet_id']: retweet for retweet in retweets}  # Assigning sorted retweets to the same variable
 
         title = user["user_first_name"] + " " + user["user_last_name"] + \
             " (@" + user["user_name"] + ") / Twitter"
@@ -109,7 +133,7 @@ def _(username):
                 "SELECT * FROM followers WHERE follower_fk = ? AND followee_fk = ?", (logged_in_user["user_id"], user["user_id"],)).fetchone()
             if follow_data:
                 followed = True
-        return template("profile", user=user, suggested_followers=suggested_followers, tweets=tweets, title=title, logged_in_user=logged_in_user, followed=followed)
+        return template("profile", user=user, suggested_followers=suggested_followers, tweets=tweets, title=title, logged_in_user=logged_in_user, followed=followed, retweets=retweets)
         
     except Exception as ex:
         print(ex)
@@ -283,6 +307,7 @@ import apis.api_forgot_password
 import apis.api_reset_password
 import apis.api_comment
 import apis.api_archive
+import apis.api_retweet
 
 ##############################
 #Bridges

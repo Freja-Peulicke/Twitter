@@ -239,6 +239,31 @@ def render_index():
             db.close()
 
 ################################################## 
+@get("/admin")
+def _():
+    try:
+        x.disable_cache()
+        
+        logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
+
+        if logged_in_user["user_admin"] == 0:
+            response.status = 303
+            response.set_header("Location", "/")
+            return
+
+        db = x.db()
+
+        users = db.execute("SELECT *, DATETIME(user_blocked_until, 'unixepoch') as user_blocked_until_formated FROM users").fetchall()
+
+        return template("admin", suggested_followers=[], logged_in_user=logged_in_user, users=users, current_time=time.time())
+    except Exception as ex:
+        print(ex)
+        return "error"
+    finally:
+        if "db" in locals():
+            db.close()
+
+################################################## 
 # Henter 3 rækker fra vores users table i databasen, som vi bruger til suggested followers
 def get_suggested_followers():
     try:
@@ -305,6 +330,8 @@ import apis.api_reset_password
 import apis.api_comment
 import apis.api_delete
 import apis.api_retweet
+import apis.api_admin_block_unblock_user
+import apis.api_admin_delete_user
 
 ##############################
 #Bridges

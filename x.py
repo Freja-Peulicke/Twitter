@@ -189,6 +189,153 @@ def delete_user_email(receiver_email, user_id):
     finally:
         pass
 
+
+
+
+##############################
+
+def admin_delete_user_email(receiver_email):
+    try:
+        sender_email = "freja.peulicke@gmail.com"
+        password = "pliyoscaqcaahfjq"   
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "Delete user - Twitter"
+        message["From"] = sender_email
+        message["To"] = receiver_email 
+        # Create the plain-text and HTML version of your message
+        text = f"""\
+        Hi,
+        An admin have deleted your account!
+        This can not be reversed, as it your data is now permanently deleted from our system."""
+        html = f"""\
+        <html>
+        <body>
+            <p>Hi,<br>
+            An admin have deleted your account!<br>
+            This can not be reversed, as it your data is now permanently deleted from our system.
+            </p>
+        </body>
+        </html>
+        """   
+        # Turn these into plain/html MIMEText objects
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
+
+        # Add HTML/plain-text parts to MIMEMultipart message
+        # The email client will try to render the last part first
+        message.attach(part1)
+        message.attach(part2)
+
+        # Create secure connection with server and send email
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(
+                sender_email, receiver_email, message.as_string()
+            )   
+    except:
+        pass
+    finally:
+        pass
+
+
+
+
+##############################
+
+def admin_unblock_user_email(receiver_email):
+    try:
+        sender_email = "freja.peulicke@gmail.com"
+        password = "pliyoscaqcaahfjq"   
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "User unblocked - Twitter"
+        message["From"] = sender_email
+        message["To"] = receiver_email 
+        # Create the plain-text and HTML version of your message
+        text = f"""\
+        Hi,
+        An admin have unblocked your account!
+        You can now login again."""
+        html = f"""\
+        <html>
+        <body>
+            <p>Hi,<br>
+            An admin have unblocked your account!<br>
+            You can now login again.
+            </p>
+        </body>
+        </html>
+        """   
+        # Turn these into plain/html MIMEText objects
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
+
+        # Add HTML/plain-text parts to MIMEMultipart message
+        # The email client will try to render the last part first
+        message.attach(part1)
+        message.attach(part2)
+
+        # Create secure connection with server and send email
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(
+                sender_email, receiver_email, message.as_string()
+            )   
+    except:
+        pass
+    finally:
+        pass
+
+
+
+
+##############################
+
+def admin_block_user_email(receiver_email):
+    try:
+        sender_email = "freja.peulicke@gmail.com"
+        password = "pliyoscaqcaahfjq"   
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "User blocked - Twitter"
+        message["From"] = sender_email
+        message["To"] = receiver_email 
+        # Create the plain-text and HTML version of your message
+        text = f"""\
+        Hi,
+        An admin have blocked your account!
+        You can login again when the 24 hours have passed, or if an admin unblocks you."""
+        html = f"""\
+        <html>
+        <body>
+            <p>Hi,<br>
+            An admin have blocked your account for 24 hours!<br>
+            You can login again when the 24 hours have passed, or if an admin unblocks you.
+            </p>
+        </body>
+        </html>
+        """   
+        # Turn these into plain/html MIMEText objects
+        part1 = MIMEText(text, "plain")
+        part2 = MIMEText(html, "html")
+
+        # Add HTML/plain-text parts to MIMEMultipart message
+        # The email client will try to render the last part first
+        message.attach(part1)
+        message.attach(part2)
+
+        # Create secure connection with server and send email
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(
+                sender_email, receiver_email, message.as_string()
+            )   
+    except:
+        pass
+    finally:
+        pass
+
 ##############################
 # Validering af tweet 
 TWEET_MIN_LEN = 2

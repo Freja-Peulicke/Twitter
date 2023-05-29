@@ -20,12 +20,12 @@ CREATE TABLE users(
   user_total_followers        INT  DEFAULT 0,
   user_total_following        INT  DEFAULT 0,
   user_blocked_until          INT  DEFAULT 0,
-  user_archived_at            INT  DEFAULT 0,
+  user_admin                  BOOL DEFAULT 0,
   PRIMARY KEY(user_id)
 ) WITHOUT rowid;
 
-INSERT INTO users VALUES("ccec0766e15a476f939058b13563b8b2","elonmusk@gmail.com","11111111", "elonmusk","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Elon", "Musk",0, 1298900000,0,0, "ccec0766e15a476f939058b13563b8b2.jpg", "ccec0766e15a476f939058b13563b8b2.jpg",177, 0, 0, 0,0);
-INSERT INTO users VALUES("bd17f1a11c2d462c8bd73ad28ed5b680","shakira@gmail.com","22222222", "shakira","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Shakira", "",0, 1298900340,0,0, "bd17f1a11c2d462c8bd73ad28ed5b680.jpg", "bd17f1a11c2d462c8bd73ad28ed5b680.jpg",200, 0, 0, 0,0);
+INSERT INTO users VALUES("ccec0766e15a476f939058b13563b8b2","elonmusk@gmail.com","11111111", "elonmusk","1234",X'243262243132244a57626c4e6d7345652e30342f694b437051796778753462586536784c2e4c634e436577636474466f576f59596c786e2e38505a47', "Elon", "Musk",0, 1298900000,0,1685384313, "ccec0766e15a476f939058b13563b8b2.jpg", "ccec0766e15a476f939058b13563b8b2.jpg",177, 0, 0, 0,1);
+INSERT INTO users VALUES("bd17f1a11c2d462c8bd73ad28ed5b680","shakira@gmail.com","22222222", "shakira","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Shakira", "",0, 1298900340,0,0, "bd17f1a11c2d462c8bd73ad28ed5b680.jpg", "bd17f1a11c2d462c8bd73ad28ed5b680.jpg",200, 0, 0, 1687285481,0);
 INSERT INTO users VALUES("a1e871848d5b41c59ae4cafa7b907503","michelleobama@gmail.com","33333333", "michelleobama","1234","$2b$12$WQ9GwPD2lmP3ZbUNWM7gMOaoX26xkyj4vYlZPBypOwwpJpNOl9HhS", "Michelle", "Obama",0, 1298900340,0,0, "a1e871848d5b41c59ae4cafa7b907503.jpg", "a1e871848d5b41c59ae4cafa7b907503.jpg",2050, 0, 0, 0,0);
 
 CREATE UNIQUE INDEX idx_users_username ON users(user_name);

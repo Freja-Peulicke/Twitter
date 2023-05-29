@@ -1,5 +1,8 @@
 <script src="/js/validate.js"></script>
 <script src="/js/base_app.js"></script>
+% if logged_in_user and logged_in_user.get("user_admin"):
+<script src="/js/admin_app.js"></script>
+% end
 </body>
 
 </html>

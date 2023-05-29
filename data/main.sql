@@ -306,3 +306,5 @@ BEGIN
     WHERE followee_fk = NEW.followee_fk
   ) >= 10;
 END;
+
+UPDATE users SET user_activated_at = 1685384313  WHERE user_id = "418ee64a9cc74e17a43d51937effd3f9"	

@@ -1308,6 +1308,11 @@ video {
   color: rgb(29 155 240 / var(--tw-text-opacity));
 }
 
+.text-gold {
+  --tw-text-opacity: 1;
+  color: rgb(212 175 55 / var(--tw-text-opacity));
+}
+
 .opacity-50 {
   opacity: 0.5;
 }

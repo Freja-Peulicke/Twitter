@@ -22,8 +22,8 @@ def _():
             if user["user_blocked_until"] > int(time.time()):
                 date = strftime('%Y-%m-%d %H:%M:%S', localtime(user["user_blocked_until"]))
                 raise Exception(400, "user blocked until: "+date)
-            if user["user_verified_at"] == 0:
-                raise Exception(400, "user not verified: Check your mail" )
+            if user["user_activated_at"] == 0:
+                raise Exception(400, "user not activated: check your mail" )
             try:
                 import production
                 is_cookie_https = True

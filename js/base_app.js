@@ -145,7 +145,7 @@ async function tweet(){
     console.log(frm)
     const btn = frm.elements.submit
     btn.disabled = true
-    const conn = await fetch("/tweet", {
+    const conn = await fetch("/api-tweet", {
       method: "POST",
       body: new FormData(frm)
     })
@@ -193,7 +193,7 @@ function search(){
     clearTimeout(the_timer);
     the_timer = setTimeout( async function(){
         let query = document.querySelector("#search_input").value;
-        const conn = await fetch("/search",{
+        const conn = await fetch("/api-search",{
             method : "POST",
             headers: {
                 "Content-Type":"application/json"
@@ -430,7 +430,7 @@ async function edit_profile(){
     console.log(frm)
     const btn = frm.elements.submit
     btn.disabled = true
-    const conn = await fetch("/edit-profile", {
+    const conn = await fetch("/api-edit-profile", {
       method: "POST",
       body: new FormData(frm)
     })
@@ -471,7 +471,7 @@ function preview_avatar_img() {
 async function delete_user(){
     const btn = event.currentTarget
     btn.disabled = true
-    const conn = await fetch("/api-archive-user",{
+    const conn = await fetch("/api-delete-user",{
         method: "POST"
     })
 
@@ -495,7 +495,7 @@ async function retweet(){
     const tweet_id = btn.dataset.tweet
     btn.disabled = true
     
-    const conn = await fetch("/retweet",{
+    const conn = await fetch("/api-retweet",{
         method : "POST",
         headers: {"Content-Type":"application/json"},
         body: '{"tweet_id": "'+tweet_id+'"}'

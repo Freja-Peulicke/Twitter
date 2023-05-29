@@ -4,7 +4,7 @@ import uuid
 import pathlib
 import magic
 
-@post("/edit-profile")
+@post("/api-edit-profile")
 def _():
     try:
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)

@@ -1,7 +1,7 @@
 from bottle import post, request, response
 import x
 
-@post("/api-archive-user")
+@post("/api-delete-user")
 def _():
     try:
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)

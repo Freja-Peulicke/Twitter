@@ -3,7 +3,7 @@ import x
 import uuid
 import time
 
-@post("/retweet")
+@post("/api-retweet")
 def _():
     try:  # SUCCESS
         print("retweet start")

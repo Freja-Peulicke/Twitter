@@ -5,7 +5,7 @@ import time
 import pathlib
 import magic
 
-@post("/tweet")
+@post("/api-tweet")
 def _():
     try:  # SUCCESS
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)

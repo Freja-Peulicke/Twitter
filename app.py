@@ -306,7 +306,7 @@ import apis.api_edit_profile
 import apis.api_forgot_password 
 import apis.api_reset_password
 import apis.api_comment
-import apis.api_archive
+import apis.api_delete
 import apis.api_retweet
 
 ##############################

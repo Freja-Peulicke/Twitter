@@ -3,7 +3,7 @@ import json
 import x
 
 
-@post("/search")
+@post("/api-search")
 def _():
     try:
         response.set_header("Content-type", "application/json")

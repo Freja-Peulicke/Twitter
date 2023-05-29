@@ -29,9 +29,6 @@ def _():
         pass
 
 
-
-
-
 ### for at undgå at uploade de statiske filer, er ikke noget santiago har. 
 try:
     import production

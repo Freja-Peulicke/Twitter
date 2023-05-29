@@ -246,7 +246,7 @@ def _():
         
         logged_in_user = request.get_cookie("user", secret=x.COOKIE_SECRET)
 
-        if logged_in_user["user_admin"] == 0:
+        if not logged_in_user or logged_in_user["user_admin"] == 0:
             response.status = 303
             response.set_header("Location", "/")
             return

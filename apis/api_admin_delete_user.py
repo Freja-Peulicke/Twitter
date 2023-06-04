@@ -12,11 +12,8 @@ def _():
         
         db = x.db()
         cur = db.cursor()
-
         data = request.json
-
         user_id = x.validate_user_id(data["user_id"])
-
         user = cur.execute("SELECT * FROM users WHERE user_id = ? LIMIT 1", (user_id,)).fetchone()
 
         cur.execute("PRAGMA foreign_keys = 0")

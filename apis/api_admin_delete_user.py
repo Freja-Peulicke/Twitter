@@ -39,5 +39,4 @@ def _():
             response.status = 500
             return {"info":str(e)}
     finally:
-        if "db" in locals(): db.close()    
-        
+        if "db" in locals(): db.close()

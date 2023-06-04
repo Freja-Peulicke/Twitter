@@ -18,7 +18,8 @@ def _():
         elif len(randomNumberStr)==3:
             randomNumberStr = "0" + randomNumberStr
         db=x.db()
-        total_rows_updated = db.execute("UPDATE users SET user_gold_key = ? WHERE user_id = ?", (randomNumberStr, logged_in_user["user_id"], )).rowcount
+        cur = db.cursor()
+        total_rows_updated = cur.execute("UPDATE users SET user_gold_key = ? WHERE user_id = ?", (randomNumberStr, logged_in_user["user_id"], )).rowcount
         if total_rows_updated != 1: raise Exception("Please, try again")
         db.commit()
         user_api_key = "394cf1eb0df808b48563d7cd5623fc10"
@@ -32,6 +33,7 @@ def _():
         res = requests.post('https://fiotext.com/send-sms', data=payload)
         return res.text
     except Exception as ex:
+        if 'db' in locals(): db.rollback()
         return {
             "info": str(ex)
         }

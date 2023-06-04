@@ -11,20 +11,21 @@ def _():
             return
         
         db = x.db()
+        cur = db.cursor()
 
         data = request.json
 
         user_id = x.validate_user_id(data["user_id"])
 
-        user = db.execute("SELECT * FROM users WHERE user_id = ? LIMIT 1", (user_id,)).fetchone()
+        user = cur.execute("SELECT * FROM users WHERE user_id = ? LIMIT 1", (user_id,)).fetchone()
 
-        db.execute("PRAGMA foreign_keys = 0")
+        cur.execute("PRAGMA foreign_keys = 0")
 
-        total_rows_deleted = db.execute("DELETE FROM users WHERE user_id = ? AND user_admin = 0", (user["user_id"],) ).rowcount
+        total_rows_deleted = cur.execute("DELETE FROM users WHERE user_id = ? AND user_admin = 0", (user["user_id"],) ).rowcount
         if total_rows_deleted != 1: raise Exception("Please, try again")
         db.commit()
 
-        db.execute("PRAGMA foreign_keys = 1")
+        cur.execute("PRAGMA foreign_keys = 1")
 
         x.admin_delete_user_email(user["user_email"])
 
@@ -32,6 +33,7 @@ def _():
             "info" : "user deleted and email sent"
         }
     except Exception as e:
+        if 'db' in locals(): db.rollback()
         print(e)
         try: # Controlled exception, usually comming from the x file
             response.status = e.args[0]

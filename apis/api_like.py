@@ -22,7 +22,8 @@ def _():
         like_created_at = int(time.time())
         if not x.validate_like_exist(user_id, tweet_id, comment_id):
             db=x.db()
-            total_rows_inserted = db.execute("INSERT INTO likes (like_id, like_user_fk, like_tweet_fk, like_comment_fk, like_created_at) VALUES(?, ?, ?, ?, ?)", (like_id, user_id, tweet_id, comment_id, like_created_at)).rowcount
+            cur = db.cursor()
+            total_rows_inserted = cur.execute("INSERT INTO likes (like_id, like_user_fk, like_tweet_fk, like_comment_fk, like_created_at) VALUES(?, ?, ?, ?, ?)", (like_id, user_id, tweet_id, comment_id, like_created_at)).rowcount
             if total_rows_inserted != 1: raise Exception("Please, try again")
             db.commit()
             return {"info": "ok"}
@@ -30,6 +31,7 @@ def _():
             response.status = 400
             return {"info": "Like already exist"}
     except Exception as ex:
+        if 'db' in locals(): db.rollback()
         response.status = 400
         return {"info": str(ex)}
     finally:

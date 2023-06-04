@@ -13,7 +13,8 @@ def _():
         followed_at = int(time.time())
         if not x.validate_follow_exist(follower_id,followee_id):
             db =x.db()
-            db.execute(
+            cur = db.cursor()
+            cur.execute(
                 "INSERT INTO followers (follower_fk, followee_fk, followed_at) VALUES (?,?,?)",(follower_id, followee_id, followed_at))
             db.commit()
             return {"info": "ok"}
@@ -21,6 +22,7 @@ def _():
             response.status = 400
             return {"info": "Follow already exist"}
     except Exception as ex:
+        if 'db' in locals(): db.rollback()
         response.status = 400
         return {"info": str(ex)}
     finally:

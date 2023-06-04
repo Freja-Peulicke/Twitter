@@ -15,7 +15,7 @@ def _():
         user_last_name = request.forms.get('user_last_name')
 
         db = x.db()
-
+        cur = db.cursor()
         the_banner = request.files.get("banner-upload")
         if the_banner and the_banner.filename != "empty":
             banner_content = the_banner.file.read()
@@ -30,7 +30,7 @@ def _():
             banner_name = banner_name + ext
             the_banner.save(f"{x.base_dir}images/banners/{banner_name}")
         else:
-            user_data = db.execute("SELECT user_banner FROM users WHERE user_id = ?", (logged_in_user["user_id"],)).fetchone()
+            user_data = cur.execute("SELECT user_banner FROM users WHERE user_id = ?", (logged_in_user["user_id"],)).fetchone()
             banner_name = user_data["user_banner"]
 
         the_avatar = request.files.get("avatar-upload")
@@ -47,13 +47,13 @@ def _():
             avatar_name = avatar_name + ext
             the_avatar.save(f"{x.base_dir}images/avatars/{avatar_name}")
         else:
-            user_data = db.execute("SELECT user_avatar FROM users WHERE user_id = ?", (logged_in_user["user_id"],)).fetchone()
+            user_data = cur.execute("SELECT user_avatar FROM users WHERE user_id = ?", (logged_in_user["user_id"],)).fetchone()
             avatar_name = user_data["user_avatar"]
         
-        total_rows_updated = db.execute("UPDATE users SET user_first_name = ?, user_last_name = ?, user_name = ?, user_email = ?, user_phone = ?, user_banner = ?, user_avatar = ?  WHERE user_id = ?", (user_first_name, user_last_name, user_name, user_email, user_phone, banner_name, avatar_name, logged_in_user["user_id"],) ).rowcount
+        total_rows_updated = cur.execute("UPDATE users SET user_first_name = ?, user_last_name = ?, user_name = ?, user_email = ?, user_phone = ?, user_banner = ?, user_avatar = ?  WHERE user_id = ?", (user_first_name, user_last_name, user_name, user_email, user_phone, banner_name, avatar_name, logged_in_user["user_id"],) ).rowcount
         if total_rows_updated != 1: raise Exception("Please, try again")
         db.commit()
-        user = db.execute("SELECT * FROM users WHERE user_id = ? LIMIT 1", (logged_in_user["user_id"],)).fetchone()
+        user = cur.execute("SELECT * FROM users WHERE user_id = ? LIMIT 1", (logged_in_user["user_id"],)).fetchone()
         try:
             import production
             is_cookie_https = True
@@ -64,6 +64,7 @@ def _():
             "info" : "user updated"
         }
     except Exception as ex:  # SOMETHING IS WRONG
+        if 'db' in locals(): db.rollback()
         response.status = 400
         print(ex)
         return {"info": str(ex)}

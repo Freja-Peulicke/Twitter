@@ -30,17 +30,19 @@ def _():
             image_name = ""
         
         db = x.db()
+        cur = db.cursor()
         tweet_id = request.forms.get("tweet_id")
         comment_id = str(uuid.uuid4().hex)
         comment_message = request.forms.get("message")
         comment_image = image_name
         comment_created_at = int(time.time())
         comment_user_fk = logged_in_user['user_id']
-        db.execute("INSERT INTO comments (comment_tweet_fk, comment_id, comment_message, comment_image, comment_created_at, comment_user_fk) VALUES(?, ?, ?, ?, ?, ?)",
+        cur.execute("INSERT INTO comments (comment_tweet_fk, comment_id, comment_message, comment_image, comment_created_at, comment_user_fk) VALUES(?, ?, ?, ?, ?, ?)",
                    (tweet_id, comment_id, comment_message, comment_image, comment_created_at, comment_user_fk))
         db.commit()
         return {"info": "ok", "comment_id": comment_id}
     except Exception as ex:  # SOMETHING IS WRONG
+        if 'db' in locals(): db.rollback()
         response.status = 400
         return {"info": str(ex)}
     finally:  # This will always take place

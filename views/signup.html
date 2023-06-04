@@ -22,7 +22,7 @@
         autocomplete="off">
             <div class="flex flex-col">
                 <label for="">Username</label>
-                <input class="h-10 px-2 text-black bg-white rounded-sm outline-none" name="user_name" type="text" placeholder="username">
+                <input class="h-10 px-2 text-black bg-white rounded-sm outline-none" name="user_name" type="text" placeholder="Username">
             </div>
             <div class="flex flex-col">
                 <label for="">Email</label>
@@ -30,20 +30,23 @@
             </div>
             <div class="flex flex-col">
                 <label for="">First Name</label>
-                <input name="user_first_name" type="text" placeholder="First name">
+                <input class="h-10 px-2 text-black bg-white rounded-sm outline-none" name="user_first_name" type="text" placeholder="First name">
             </div>
             <div class="flex flex-col">
+                <label for="">Phone</label>
                 <input class="h-10 px-2 text-black bg-white rounded-sm outline-none" data-validate="regex" data-regex="^[1-9][0-9]{7}$" name="user_phone" type="text" placeholder="Phone">
             </div>
             <div class="flex flex-col">
-                <label for="" class="-mt-2">Password ({{x.USER_PASSWORD_MIN}} to {{x.USER_PASSWORD_MAX}} characters)</label>
+                <label for="" >Password ({{x.USER_PASSWORD_MIN}} to {{x.USER_PASSWORD_MAX}} characters)</label>
                 <input class="h-10 px-2 text-black bg-white rounded-sm outline-none" data-validate="str" data-min="{{x.USER_PASSWORD_MIN}}" data-max="{{x.USER_PASSWORD_MAX}}" name="user_password" type="password" placeholder="Password">
             </div>
             <div class="flex flex-col">
-                <input data-validate="str" data-min="{{x.USER_PASSWORD_MIN}}" data-max="{{x.USER_PASSWORD_MAX}}" name="user_confirm_password" type="password" placeholder="Confirm password">
+                <label for="">Confirm password ({{x.USER_PASSWORD_MIN}} to {{x.USER_PASSWORD_MAX}} characters)</label>
+                <input class="h-10 px-2 text-black bg-white rounded-sm outline-none" data-validate="str" data-min="{{x.USER_PASSWORD_MIN}}" data-max="{{x.USER_PASSWORD_MAX}}" name="user_confirm_password" type="password" placeholder="Confirm password">
             </div>
-            <button type="button" onclick="validate(sign_up); return false" data-default="Sign up now" data-await="Please wait ...">Sign up now</button>
+            <button class="h-10 text-white rounded-sm bg-sky-500" type="button" onclick="validate(sign_up); return false" data-default="Sign up now" data-await="Please wait ...">Sign up now</button>
         </form>
+        <p class="m-8">Already have a user? Go to <a href="/login" class="underline">Login</a></p>
     </div>
     <script src="js/validate.js"></script>
     <script src="js/base_app.js"></script>

@@ -48,7 +48,8 @@ def _():
         print(values)
 
         db = x.db()
-        total_rows_inserted = db.execute(f"INSERT INTO users VALUES({values})", user).rowcount        
+        cur = db.cursor()
+        total_rows_inserted = cur.execute(f"INSERT INTO users VALUES({values})", user).rowcount        
         if total_rows_inserted != 1: raise Exception("Please, try again")
         db.commit()
         x.sign_up_email(user_email, user_id)
@@ -57,6 +58,7 @@ def _():
             "user_id" : user_id
         }
     except Exception as e:
+        if 'db' in locals(): db.rollback()
         print(e)
         try: # Controlled exception, usually comming from the x file
             response.status = e.args[0]

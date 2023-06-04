@@ -16,7 +16,8 @@ def _():
         user_password_encoded = user_password.encode()
         # Connect to database
         db = x.db()
-        user = db.execute("SELECT * FROM users WHERE user_email = ? LIMIT 1", (user_email,)).fetchone()
+        cur = db.cursor()
+        user = cur.execute("SELECT * FROM users WHERE user_email = ? LIMIT 1", (user_email,)).fetchone()
         if not user: raise Exception(400, "Invalid credentials. Try again")
         if bcrypt.checkpw(user_password_encoded, user["user_password"]):
             if user["user_blocked_until"] > int(time.time()):
@@ -34,6 +35,7 @@ def _():
         else:
             raise Exception(400, "Invalid credentials. Try again")
     except Exception as e:
+        if 'db' in locals(): db.rollback()
         print(e)
         try: # Controlled exception, usually comming from the x file
             response.status = e.args[0]

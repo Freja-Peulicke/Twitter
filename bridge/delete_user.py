@@ -15,15 +15,19 @@ def _(user_id):
             return
         
         db =x.db()
+        cur = db.cursor()
+        cur.execute("PRAGMA foreign_keys = 0")
         
-        total_rows_deleted = db.execute("DELETE FROM users WHERE user_id = ?", (logged_in_user["user_id"],) ).rowcount
+        total_rows_deleted = cur.execute("DELETE FROM users WHERE user_id = ?", (logged_in_user["user_id"],) ).rowcount
         if total_rows_deleted != 1: raise Exception("Please, try again")
         db.commit()
+        cur.execute("PRAGMA foreign_keys = 1")
         
         response.status = 303
         response.set_header("Location", "/logout")
         return
     except Exception as e:
+        if 'db' in locals(): db.rollback()
         print(e)
         try: # Controlled exception, usually comming from the x file
             response.status = e.args[0]

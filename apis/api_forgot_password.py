@@ -12,13 +12,15 @@ def _():
 
         user_email = x.validate_user_email()
         db = x.db()
-        user = db.execute("SELECT * FROM users WHERE user_email = ? LIMIT 1", (user_email,)).fetchone()
+        cur = db.cursor()
+        user = cur.execute("SELECT * FROM users WHERE user_email = ? LIMIT 1", (user_email,)).fetchone()
         if not user: raise Exception(400, "Try again")
         x.forgot_password_email(user_email, user["user_id"])
         return {
             "info" : "email sent"
         }
     except Exception as e:
+        if 'db' in locals(): db.rollback()
         print(e)
         try: # Controlled exception, usually comming from the x file
             response.status = e.args[0]

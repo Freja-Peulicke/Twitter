@@ -19,10 +19,12 @@ def _():
         like_user_fk = logged_in_user['user_id']
 
         db=x.db()
-        db.execute("DELETE FROM likes WHERE like_user_fk = ? AND like_tweet_fk = ? AND like_comment_fk = ?", (like_user_fk, like_tweet_fk, like_comment_fk))
+        cur = db.cursor()
+        cur.execute("DELETE FROM likes WHERE like_user_fk = ? AND like_tweet_fk = ? AND like_comment_fk = ?", (like_user_fk, like_tweet_fk, like_comment_fk))
         db.commit()
         return {"info": "ok"}
     except Exception as ex:
+        if 'db' in locals(): db.rollback()
         response.status = 400
         return {"info": str(ex)}
     finally:

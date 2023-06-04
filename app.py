@@ -345,7 +345,7 @@ import apis.api_admin_delete_user
 ##############################
 #Bridges
 import bridge.logout
-import bridge.archive_user
+import bridge.delete_user
 
 ##############################
 # Run in AWS

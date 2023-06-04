@@ -292,6 +292,55 @@ BEGIN
   WHERE tweet_id = OLD.like_tweet_fk;
 END;
 
+-- Increase comment_likes when a like is inserted/created
+DROP TRIGGER IF EXISTS increment_comment_likes;
+CREATE TRIGGER increment_comment_likes AFTER INSERT ON likes
+BEGIN
+  UPDATE comments 
+  SET comment_likes = comment_likes + 1 
+  WHERE comment_id = NEW.like_comment_fk;
+END;
+
+-- Decrease tweet_likes when a like is inserted/created
+DROP TRIGGER IF EXISTS decrement_comment_likes;
+CREATE TRIGGER decrement_comment_likes AFTER DELETE ON likes
+BEGIN
+  UPDATE comments 
+  SET comment_likes = comment_likes - 1 
+  WHERE comment_id = OLD.like_comment_fk
+END;
+
+
+-- Increase tweet_comments when a comment is inserted/created
+DROP TRIGGER IF EXISTS increment_tweet_comments;
+CREATE TRIGGER increment_tweet_comments AFTER INSERT ON comments
+BEGIN
+  UPDATE tweets 
+  SET tweet_replies = tweet_replies + 1 
+  WHERE tweet_id = NEW.comment_tweet_fk;
+END;
+
+-- Decrease tweet_likes when a like is inserted/created
+DROP TRIGGER IF EXISTS decrement_tweet_likes;
+CREATE TRIGGER decrement_tweet_likes AFTER DELETE ON likes
+BEGIN
+  UPDATE tweets 
+  SET tweet_likes = tweet_likes - 1 
+  WHERE tweet_id = OLD.like_tweet_fk;
+END;
+
+
+
+-- Increase tweet_retweets when a retweet is inserted/created
+DROP TRIGGER IF EXISTS increment_tweet_retweets;
+CREATE TRIGGER increment_tweet_retweets AFTER INSERT ON tweets
+BEGIN
+  UPDATE tweets
+  SET tweet_retweets = tweet_retweets + 1
+  WHERE tweet_id = NEW.tweet_retweet_fk;
+END;
+
+
 -- Blue checkmark verification 
 
 DROP TRIGGER IF EXISTS blue_checkmark;

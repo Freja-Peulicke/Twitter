@@ -511,4 +511,9 @@ async function retweet(){
     btn.disabled = false
     // Success
     console.log("ok retweet")
+    if (window.location.pathname == "/") {
+        window.location.reload()
+    } else {
+        window.location.pathname = "/" 
+    }
 }

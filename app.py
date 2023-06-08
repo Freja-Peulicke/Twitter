@@ -289,6 +289,18 @@ def get_suggested_followers():
             db.close()
 
 
+
+""" @get("/test")
+def _():
+    for x in range(100):
+        print("name")
+    return "X"
+ """
+@get("/test")
+def _():
+    name = "Freja"
+    return template("test", name = name)
+
 ##################################################
 @get("/app.css")
 def _():

@@ -517,3 +517,10 @@ async function retweet(){
         window.location.pathname = "/" 
     }
 }
+
+/* for (let index = 0; index < 100; index++) {
+    console.log("name")
+    
+} */
+
+//document.querySelector("body").style.backgroundColor="red"
